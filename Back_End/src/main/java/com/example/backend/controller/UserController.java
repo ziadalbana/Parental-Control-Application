@@ -23,6 +23,7 @@ public class UserController {
     }
     @PostMapping("/signin")
     public ResponseEntity<Boolean> signinController( @RequestBody String receivedData){
+    	System.out.println(receivedData);
         boolean status=handler.signIn(receivedData);
         if (status)  return new ResponseEntity<>(status, HttpStatus.OK);
         return new ResponseEntity<>(status, HttpStatus.UNAUTHORIZED);
