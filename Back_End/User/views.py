@@ -1,4 +1,5 @@
 from django.contrib.auth.hashers import check_password
+from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -18,6 +19,12 @@ class SignUp(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request, username: str):
+        user = User.objects.filter(userName=username).first()
+        if user is not None:
+            return Response({'exists': True})
+        return Response({'exists': False})
+
 
 class SignIn(APIView):
     def post(self, request):
@@ -35,3 +42,20 @@ class SignIn(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+
+@api_view(['PATCH'])
+def update_blocked_links(request, username):
+    try:
+        user = User.objects.get(userName=username)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    blocked_links = request.data.get('blockedLinks')
+    if not blocked_links:
+        return Response({'error': 'blockedLinks is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user.blockedLinks = blocked_links
+    user.save()
+
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
