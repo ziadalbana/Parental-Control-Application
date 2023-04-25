@@ -86,8 +86,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'test',
-        'HOST': '127.0.0.1',
-        'PORT': 27017,
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': 'mongodb+srv://test:qDnPE8Y89eZTu4Lz@cluster0.wht4tiw.mongodb.net/?retryWrites=true&w=majority'
+        }
     }
 }
 

@@ -1,5 +1,4 @@
 from django.contrib.auth.hashers import check_password
-from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -43,19 +42,29 @@ class SignIn(APIView):
         return Response(serializer.data)
 
 
-@api_view(['PATCH'])
-def update_blocked_links(request, username):
-    try:
-        user = User.objects.get(userName=username)
-    except User.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+class BlockedLinks(APIView):
 
-    blocked_links = request.data.get('blockedLinks')
-    if not blocked_links:
-        return Response({'error': 'blockedLinks is required'}, status=status.HTTP_400_BAD_REQUEST)
+    def get(self, request, username):
+        user = User.objects.filter(userName=username).first()
+        if not user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        blocked_links = user.blockedLinks
+        if blocked_links is not None:
+            return Response({'blockedLinks': blocked_links})
+        else:
+            return Response({'blockedLinks': []})
 
-    user.blockedLinks = blocked_links
-    user.save()
+    def put(self, request, username):
+        user = User.objects.filter(userName=username).first()
+        if not user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    serializer = UserSerializer(user)
-    return Response(serializer.data)
+        blocked_links = request.data.get('blockedLinks')
+        if not blocked_links:
+            return Response({'error': 'Blocked links not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.blockedLinks = blocked_links
+        user.save()
+
+        # serializer = UserSerializer(user)
+        return Response(status=status.HTTP_200_OK)
