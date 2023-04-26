@@ -1,0 +1,48 @@
+button {
+    background-color: rgb(117, 111, 111);
+    
+  }
+  
+  button:hover { background-color: rgb(117, 111, 111); }
+  button:focus,
+  button:active { outline: none; }
+  button::-moz-focus-inner { border: 0; }
+  
+  .pin {
+    background-color: white;
+    border-radius: 98px;
+    height: 19px;
+    left: -15px;
+    position: absolute;
+    top: 1px;
+    width: 19px;
+    transition: left ease .5s;
+  }
+  
+  button.on {
+    background-color: green;
+    border: 0;
+    border-radius: 50px;
+    cursor: pointer;
+    height: 20px;
+    position: relative;
+    width: 43px;
+    margin-left: 10px;
+  }
+
+  button.off{
+    border: 0;
+    border-radius: 50px;
+    cursor: pointer;
+    height: 20px;
+    position: relative;
+    width: 43px;
+    margin-left: 10px;
+
+  }
+  
+  button.on .pin {
+    left: 7px;
+    
+  }
+  
