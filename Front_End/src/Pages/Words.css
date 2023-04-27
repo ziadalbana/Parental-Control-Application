@@ -1,0 +1,255 @@
+
+  
+* {
+    box-sizing: border-box;
+    font-family: "sans-serif";
+  }
+
+.b-Container{
+    width: 100vh;
+    height: 100vh;
+    position: relative;
+
+  }
+  
+  body {
+    font-size: 16px;
+    font-family: "sans-serif";
+    background-color: #F2F2F2;
+  }
+  
+  .pill {
+    display: inline-block;
+    padding: 0.4em;
+    border-radius: 4px;
+    margin-right: 0.25em;
+    margin-bottom: 0.25em;
+    transition: 0.3s all;
+    line-height: 1;
+  }
+  
+  .pill-query {
+    background: white;
+    border: 1px solid #2470FF;
+    color: #2470FF;
+    font-size: 1em;
+
+  }
+  
+  .pill-clear {
+    background: #2470FF;
+    color: white;
+    cursor: pointer;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 1px solid #2470FF;
+  }
+  
+  .pill-content {
+    display: flex;
+    font-weight: bold;
+    height: 18px;
+  }
+  
+  .padding-right {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
+  
+  .pill-close {
+    color: #FFF;
+    background-color: #2470FF;
+    height: 1.5em;
+    width: 1.5em;
+    text-align: center;
+    border: none;
+    outline: none;
+    position: relative;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    margin-top: -0.2rem;
+  }
+  
+  .center-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .size100 {
+    height: 100%;
+  }
+  
+  .b-TextInput {
+    padding: 0.45em;
+    background-color: white;
+    color: var(--color--black);
+    box-sizing: border-box;
+    font-size: 14px;
+    border: 2px solid #E1E4E8;
+    margin-right: -3px;
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+  }
+
+  .pointer {
+    cursor: pointer;
+  }
+
+
+  .b-Button {
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    margin: 0 0.1em;
+    overflow: visible;
+    padding: 0.45em 1.25em;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+ 
+}
+
+.b-Button--primary {
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    margin: 0 0.1em;
+    overflow: visible;
+    padding: 0.45em 1.25em;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+  background: #2470FF;
+  border-radius: 0px 4px 4px 0px;
+  color: white;
+  border: 1px solid #2470FF;
+  height: 50px;
+  width: 100px;
+}
+
+.b-Button--primary:hover {
+  background: darken(#2470FF, 5%);
+}
+
+.b-Button--secondary {
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    margin: 0 0.1em;
+    overflow: visible;
+    padding: 0.45em 1.25em;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+  background: #2470FF;
+  border: 1px solid rgba(0,104,153,0.30);
+  color: #006899;
+}
+
+.b-Button--secondary:hover {
+  background: #D8E1E6;
+}
+
+.b-Button--tertiary {
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    margin: 0 0.1em;
+    overflow: visible;
+    padding: 0.45em 1.25em;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    font-weight: bold;
+  background: transparent;
+  border: 1px solid #006899;
+  color: #006899;
+}
+
+.b-Button--tertiary:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+  .b-Button--tertiary:hover {
+    background: rgba(0,0,0,0.05);
+  }
+  .b-Link {
+    color: #2470FF;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .b-Link--Inline {
+    margin: 0 0.5em;
+    display: inline-block;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  
+  .b-TextInput:focus {
+    border-color: #2470FF;
+  }
+  
+  .b-TextInput--lg {
+    padding: 0.7em;
+    font-size: 16px;
+  }
+  
+  .form-box {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 1000px;
+  }
+
+  .margin-bottom {
+    margin-bottom: 1em;
+  }
+  
+  .search-container {
+    display: flex;
+    margin: -1px;
+    margin-bottom: 2rem;
+  }
+  
+  .search-input {
+    width: 100%;
+    font-size: 1.25em;
+    padding: 0.85em;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  .b-TextInput--lg {
+    padding: 0.7em;
+    font-size: 16px;
+    width: 70%;
+}
+section {
+    max-width: 900px;
+}
+
+input{
+   outline: 1px  #2470FF;
+}
+h2 {
+     font-size:50px;
+     text-transform:uppercase; 
+     color:#060b26; 
+     letter-spacing:1px;
+    font-family:"Playfair Display", serif;
+     font-weight:400;
+     margin-bottom: 20px;
+  }
+
+  
