@@ -16,7 +16,6 @@ export default function Sites() {
         e.preventDefault();
         if(newWord === '')
             return ;
-        console.log("sdkjhdjhdfjf")
         setList([...list , newWord]);
         setNewWord("");
     }
@@ -39,7 +38,7 @@ export default function Sites() {
            <form className="search-container">
             <input
               className="b-TextInput--lg size-100"
-              placeholder={"Add a new Word..."}
+              placeholder={"Add a new Site..."}
               value={newWord}
               onChange={(event) => handleInputChange(event)}
               />
