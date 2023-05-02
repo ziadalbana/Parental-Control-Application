@@ -75,6 +75,8 @@ export default function Auth () {
       setErrorSignUp(!token);
       setVisibleSignUp(token);
       console.log(token);
+      token ? localStorage.setItem('userName', newUser.userName) : localStorage.setItem('userName', null);
+
 
     } 
     setVisibleSignUp(token);
@@ -97,7 +99,7 @@ export default function Auth () {
       setErrorLogin(!token);
       console.log(token);
       console.log(user);
-      
+      token ? localStorage.setItem('userName', newUser.userName) : localStorage.setItem('userName', null);
       
     }
     setVisibleLogin(token);
