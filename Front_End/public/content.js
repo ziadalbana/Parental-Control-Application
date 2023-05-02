@@ -2,7 +2,6 @@
 // Define an array of keywords to filter
 const adultKeywords = [];
 async function checkAdult(tweet) {
-  console.log(JSON.stringify(tweet));
   return fetch('http://localhost:8000/user/checkadult', {
     headers: {
       'Content-Type': 'application/json'
@@ -20,26 +19,33 @@ const observer = new MutationObserver(mutationsList => {
       // Select all tweet elements on the page
       const tweets = document.querySelectorAll('[data-testid="tweet"]');
       
-      console.log(tweets) ;
 
       // Filter out any tweets that contain adult keywords
       for (const tweet of tweets) {
-        const tweetTextElement = tweet.querySelector('[data-testid="tweet"] [lang]');
-        if (tweetTextElement !== null) {
-          const tweetText = tweetTextElement.textContent;
-          console.log(tweetText);
-          // filter and remove tweets as needed
-          const tweet={
-            tweet:tweetText
+          if(!tweet.hasAttribute('isFiltered'))
+          {
+            tweet.setAttribute('isFiltered' , 'true');
+            const tweetTextElement = tweet.querySelector('[data-testid="tweet"] [lang]');
+            if (tweetTextElement !== null) {
+              const tweetText = tweetTextElement.textContent;
+              console.log(tweetText);
+              // filter and remove tweets as needed
+              const tweet={
+                tweet:tweetText
+              }
+              
+              if (adultKeywords.some(keyword => tweetText.includes(keyword))) {
+                tweet.remove();
+              }else {
+                checkAdult(tweet).then((token) => {
+                  console.log(token);
+                });
+
+              }
+            }
           }
-          
-          if (adultKeywords.some(keyword => tweetText.includes(keyword)) || checkAdult(tweet)) {
-            tweet.remove();
-          }
-}
       }
 
-      console.log(tweets);
     }
   }
 });

@@ -21,13 +21,45 @@ import Words from "../src/Pages/Words";
 
 
 function App() {
+  let [wrongPassword, setWrongPassword] = useState(false);
+  let [emptyPassword, setEmptyPassword] = useState(false);
+  const [user ] = useState(localStorage.getItem('userName'));
+  const [inputUser ,setInputUser] = useState({
+    userName: '',
+    password: ''
+  });
+
  console.log('Rendering App component');
- const saveChanges = () => {
-  
+
+ async function checkUser() {
+  return fetch('http://localhost:8000/user/signin', {
+    method: 'POST',
+    body: JSON.stringify(inputUser)
+  })
+    .then(data => data.json())
+ }
+ async function saveChanges(){
+  const storedUserName = localStorage.getItem('userName');
+   inputUser.userName = storedUserName !== null ? storedUserName : '';
+
+   console.log(inputUser)
+  if(inputUser.userName === '' || inputUser.password === '')
+      setEmptyPassword(true);
+  else 
+  {
+    let token = false ;
+     token = await checkUser();
+     setWrongPassword(!token);
+    console.log(token);
+    
+  }
 }
 const cancel = () => {
   
 }
+
+
+
 
 const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -51,10 +83,6 @@ const customStyles = {
     boxShadow: '1px 2px #888888',
   },
 };
-
-
-  const [user ] = useState(localStorage.getItem('userName'));
-
  
   return (
     <div>
@@ -75,7 +103,7 @@ const customStyles = {
             <Form>
               <Form.Group className="mb-3" controlId="formGroupPassword">
                 <Form.Label>Please, Enter your password to save changes</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control type="password" placeholder="Password" onChange={e => inputUser.userName = e.target.value} />
               </Form.Group>
               <button type="button" className="btn btn-primary" onClick={saveChanges} style={{marginRight : '10px'}}>Submit</button>
               <button type="button" className="btn btn-danger" onClick={closeModal}>cancel</button>

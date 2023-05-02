@@ -16,8 +16,8 @@ export default function Auth () {
 };
   let [authMode, setAuthMode] = useState("signin");
   let [errorLogin, setErrorLogin] = useState(false);
-  let [errorSignUp, setErrorSignUp] = useState(false);
   let [emptyLogin, setEmptyLogin] = useState(false);
+  let [errorSignUp, setErrorSignUp] = useState(false);
   let [EmptySignUp, setEmptySignUp] = useState(false);
   let [visibleLogin, setVisibleLogin] = useState(false);
   let [visibleSignUp, setVisibleSignUp] = useState(false);
