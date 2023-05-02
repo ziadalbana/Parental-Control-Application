@@ -1,5 +1,14 @@
 // Define an array of keywords to filter
-const adultKeywords = ['الحمد', 'Last', 'كنت', 'الشهر', 'نفطر' , 'ليالي'];
+const adultKeywords = [];
+
+
+async function checkAdult(tweet) {
+  return fetch('http://localhost:8000/user/checkadult', {
+    method: 'POST',
+    body: JSON.stringify(tweet)
+  })
+    .then(data => data.json())
+ }
 
 // Create a MutationObserver to observe changes to the DOM
 const observer = new MutationObserver(mutationsList => {
@@ -17,9 +26,7 @@ const observer = new MutationObserver(mutationsList => {
           const tweetText = tweetTextElement.textContent;
           console.log(tweetText);
           // filter and remove tweets as needed
-          if (adultKeywords.some(keyword => tweetText.includes(keyword))) {
-            console.log("remooooove") ;
-            console.log(tweetText);
+          if (adultKeywords.some(keyword => tweetText.includes(keyword)) || checkAdult(tweetText)) {
             tweet.remove();
           }
 }

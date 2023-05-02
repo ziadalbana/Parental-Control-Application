@@ -33,7 +33,7 @@ export default function Auth () {
   });
 
   async function loginUser() {
-    return fetch('http://localhost:5050/user/signin', {
+    return fetch('http://localhost:8000/user/signin', {
       method: 'POST',
       body: JSON.stringify(user)
     })
@@ -41,7 +41,7 @@ export default function Auth () {
    }
 
    async function signUp() {
-    return fetch('http://localhost:5050/user/signup', {
+    return fetch('http://localhost:8000/user/signup', {
       method: 'POST',
       body: JSON.stringify(newUser)
     })
