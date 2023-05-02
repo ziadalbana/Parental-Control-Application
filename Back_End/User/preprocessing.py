@@ -1,9 +1,9 @@
 import pyarabic.araby as araby
-import pyarabic.number as number
 from tashaphyne.stemming import ArabicLightStemmer
 import re
 import arabicstopwords.arabicstopwords as stp
 import numpy as np
+
 def normalize_searchtext(listOfWords):
     newList = []
     for text in listOfWords:
@@ -43,7 +43,7 @@ def stemming(listOfWords):
     for text in listOfWords:
         ArListem = ArabicLightStemmer()
         stem = ArListem.light_stem(text)
-        newList.append(ArListem.get_stem(stem))
+        newList.append(stem.get_stem(stem))
     return newList
 def removeEnglishWords(ListOfSentence):
     newList = []

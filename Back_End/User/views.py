@@ -7,9 +7,8 @@ from rest_framework import status
 from .serializers import UserSerializer
 from .models import User
 import torch
-import numpy as np
 from django.conf import settings
-from preprocessing import preprocess
+from .preprocessing import *
 
 # Create your views here.
 class SignUp(APIView):

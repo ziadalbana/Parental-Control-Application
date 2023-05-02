@@ -91,7 +91,8 @@ DATABASES = {
         'NAME': 'test',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host': 'mongodb+srv://test:qDnPE8Y89eZTu4Lz@cluster0.wht4tiw.mongodb.net/?retryWrites=true&w=majority'
+            # 'host': 'mongodb+srv://test:qDnPE8Y89eZTu4Lz@cluster0.wht4tiw.mongodb.net/?retryWrites=true&w=majority'
+            'host':'mongodb://admin:admin@ac-ljhtrmr-shard-00-00.io3pivw.mongodb.net:27017,ac-ljhtrmr-shard-00-01.io3pivw.mongodb.net:27017,ac-ljhtrmr-shard-00-02.io3pivw.mongodb.net:27017/test?replicaSet=atlas-b5a4ee-shard-0&ssl=true&authSource=admin&retryWrites=true'
         }
     }
 }
