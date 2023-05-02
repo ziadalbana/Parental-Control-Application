@@ -43,14 +43,14 @@ def stemming(listOfWords):
     for text in listOfWords:
         ArListem = ArabicLightStemmer()
         stem = ArListem.light_stem(text)
-        newList.append(stem.get_stem(stem))
+        newList.append(ArListem.get_stem())
     return newList
 def removeEnglishWords(ListOfSentence):
     newList = []
     for row in ListOfSentence:
         sentence=re.sub('@[^\s]+',' ',row)
         sentence = re.sub(r"http\S+", ' ', sentence)
-        sentence = re.sub(r'\s*[A-Za-z]+\b', ' ' , sentence)
+        sentence = re.sub(r'\s*[A-Za-z]+\b', ' ', sentence)
         sentence = sentence.rstrip()
         sentence = ''.join((z for z in sentence if not z.isdigit()))
         sentence = ''.join(c for c in sentence if not ((c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z')))
