@@ -53,7 +53,9 @@ const customStyles = {
 };
 
 
-  const [user ] = useState(true);
+  const [user ] = useState(localStorage.getItem('userName'));
+
+ 
   return (
     <div>
 
