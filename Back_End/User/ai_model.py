@@ -6,7 +6,7 @@ tokenizer = AutoTokenizer.from_pretrained("UBC-NLP/MARBERT")
 model = BertForSequenceClassification.from_pretrained("UBC-NLP/MARBERT")
 
 # Load the saved state dictionary file
-state_dict = torch.load('../models/model/pytorch_model.bin', map_location=torch.device('cpu'))
+state_dict = torch.load('../models/deepModel/pytorch_model.bin', map_location=torch.device('cpu'))
 
 # Load the state dictionary into the model
 model.load_state_dict(state_dict)

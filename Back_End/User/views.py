@@ -16,6 +16,7 @@ class SignUp(APIView):
     def post(self, request):
         print("SignUp", flush=True)
         user_data = JSONParser().parse(request)
+        print(user_data)
         serializer = UserSerializer(data=user_data)
         if serializer.is_valid():
             serializer.save()

@@ -30,15 +30,15 @@ const observer = new MutationObserver(mutationsList => {
               const tweetText = tweetTextElement.textContent;
               console.log(tweetText);
               // filter and remove tweets as needed
-              const tweet={
+              const text={
                 tweet:tweetText
               }
               
               if (adultKeywords.some(keyword => tweetText.includes(keyword))) {
                 tweet.remove();
               }else {
-                checkAdult(tweet).then((token) => {
-                  console.log(token);
+                checkAdult(text).then((token) => {
+                  if(token.predicted_class===0) tweet.remove();
                 });
 
               }
