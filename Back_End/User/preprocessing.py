@@ -4,79 +4,64 @@ import re
 import arabicstopwords.arabicstopwords as stp
 import numpy as np
 
-def normalize_searchtext(listOfWords):
-    newList = []
-    for text in listOfWords:
-        text = araby.strip_tashkeel(text)
-        text = araby.strip_harakat(text)
-        text = araby.strip_lastharaka(text)
-        text = araby.strip_tatweel(text)
-        text = araby.normalize_hamza(text)
-        text = araby.normalize_ligature(text)
-        newList.append(text)
-    return newList
+def normalize_searchtext(tweet):
+    # for text in listOfWords:
+    text = araby.strip_tashkeel(tweet)
+    text = araby.strip_harakat(text)
+    text = araby.strip_lastharaka(text)
+    text = araby.strip_tatweel(text)
+    text = araby.normalize_hamza(text)
+    text = araby.normalize_ligature(text)
+    return text
 
-def removeStopWords(listOfWords):
-    newList = []
-    for word in listOfWords:
-        if not stp.is_stop(word):
-            newList.append(word)
-    return newList
-def removeEmojis(listOfWords):
-    newList = []
-    for text in listOfWords:
+# def removeStopWords(tweet):
+#     newList = []
+#     for word in listOfWords:
+#         tweet=
+#         if not stp.is_stop(word):
+#             newList.append(word)
+#     return newList
+def removeEmojis(tweet):
         emoji_pattern = re.compile("["
             u"\U0001F600-\U0001F64F" 
             u"\U0001F300-\U0001F5FF"  
             u"\U0001F680-\U0001F6FF"  
             u"\U0001F1E0-\U0001F1FF"  
                                "]+", flags=re.UNICODE)
-        text = emoji_pattern.sub(r'', text)
+        text = emoji_pattern.sub(r'', tweet)
         if text:
-            newList.append(text)
+            return text
         else:
-            newList.append(" ")
-    return newList
+            return " "
 
-def stemming(listOfWords):
-    newList = []
-    for text in listOfWords:
+def stemming(tweet):
         ArListem = ArabicLightStemmer()
-        stem = ArListem.light_stem(text)
-        newList.append(ArListem.get_stem())
-    return newList
-def removeEnglishWords(ListOfSentence):
-    newList = []
-    for row in ListOfSentence:
-        sentence=re.sub('@[^\s]+',' ',row)
+        stem = ArListem.light_stem(tweet)
+        return ArListem.get_stem()
+
+def removeEnglishWords(tweet):
+        sentence=re.sub('@[^\s]+',' ',tweet)
         sentence = re.sub(r"http\S+", ' ', sentence)
         sentence = re.sub(r'\s*[A-Za-z]+\b', ' ', sentence)
         sentence = sentence.rstrip()
         sentence = ''.join((z for z in sentence if not z.isdigit()))
         sentence = ''.join(c for c in sentence if not ((c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z')))
         if not sentence:
-            newList.append(" ")
-        else:
-            newList.append(sentence)
-    return newList
+            return " "
+        return sentence
 
-def removePuncation(ListOfSentence):
-    newlist=[]
-    for row in ListOfSentence:
-        result= re.sub(r'[^\w\s]',' ',row)
-        if not result:
-            newlist.append(" ")
-        else:
-            newlist.append(result)
-    return newlist
+def removePuncation(tweet):
+    result= re.sub(r'[^\w\s]',' ',tweet)
+    if not result:
+        return " "
+    return result
 
 
-def preprocess(ListOfSentences):
-    sentences = ListOfSentences
-    sentences = removeEnglishWords(sentences)
-    sentences = normalize_searchtext(sentences)
-    sentences = removeStopWords(sentences)
-    sentences = removeEmojis(sentences)
-    sentences = stemming(sentences)
-    sentences = removePuncation(sentences)
-    return np.array(sentences)
+def preprocess(Sentence):
+    sentence = removeEnglishWords(Sentence)
+    sentence = normalize_searchtext(sentence)
+    # sentences = removeStopWords(sentences)
+    sentence = removeEmojis(sentence)
+    sentence = stemming(sentence)
+    sentence = removePuncation(sentence)
+    return sentence
