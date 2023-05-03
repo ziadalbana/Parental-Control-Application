@@ -108,6 +108,7 @@ class model_predict(APIView):
         model = settings.GLOBAL_MODEL
         tokenizer = settings.GLOBAL_TOKENIZER
         tweet = request.data.get('tweet')
+
         tweet = preprocess(tweet)
         # Tokenize the test data
         encoded_text = tokenizer.encode_plus(
@@ -118,7 +119,6 @@ class model_predict(APIView):
             return_attention_mask=True,
             return_tensors='pt'
         )
-
         with torch.no_grad():
             logits = model(**encoded_text)[0]
 

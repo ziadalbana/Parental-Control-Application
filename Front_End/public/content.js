@@ -1,7 +1,7 @@
 
 // Define an array of keywords to filter
 const adultKeywords = [];
-async function checkAdult(tweet) {
+function checkAdult(tweet) {
   return fetch('http://localhost:8000/user/checkadult', {
     headers: {
       'Content-Type': 'application/json'
@@ -37,10 +37,11 @@ const observer = new MutationObserver(mutationsList => {
               if (adultKeywords.some(keyword => tweetText.includes(keyword))) {
                 tweet.remove();
               }else {
+                tweet.style.display='none';
                 checkAdult(text).then((token) => {
                   if(token.predicted_class===0) tweet.remove();
+                  else tweet.style.display='block';
                 });
-
               }
             }
           }

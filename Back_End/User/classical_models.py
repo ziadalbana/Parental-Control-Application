@@ -1,7 +1,7 @@
 import pickle
 
-m1Path = "./models/m1.pkl"
-m2Path = "./models/m2.pkl"
+m1Path = "./models/classicalModel/m1.pkl"
+m2Path = "./models/classicalModel/m2.pkl"
 
 
 def loadM1():
