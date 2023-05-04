@@ -3,3 +3,5 @@
 *.pyc
 *.iml
 *.xml
+models/deepModel/pytorch_model.bin
+models/model_5.zip
