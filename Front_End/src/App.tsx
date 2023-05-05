@@ -18,12 +18,14 @@ import Navbar from './Components/Navbar/Navbar';
 import Home from "../src/Pages/Home"
 import Sites from "../src/Pages/Sites";
 import Words from "../src/Pages/Words";
+import { useSelector} from 'react-redux';
+import  root  from './store';
 
 
 function App() {
   let [wrongPassword, setWrongPassword] = useState(false);
   let [emptyPassword, setEmptyPassword] = useState(false);
-  const [user ] = useState(localStorage.getItem('userName'));
+  const [user ] = useState(useSelector((state : typeof root) => state.userName));
   const [inputUser ,setInputUser] = useState({
     userName: '',
     password: ''

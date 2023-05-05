@@ -1,14 +1,53 @@
-import React from 'react'
+import React , { useRef }from 'react'
 import './Auth.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector, useDispatch } from 'react-redux';
+import {  updateUser } from '../../action';
 
 import { useState } from "react"
 
 export default function Auth () {
+  const dispatch = useDispatch();
+  function handleUpdateUser() {
+    dispatch(updateUser({
+      id : 22,
+      userName :' useSelector(state => state.userName) ,',
+      email : ' useSelector(state => state.userName) ,' ,
+      removeAdultTweets : ' useSelector(state => state.userName) ,' ,
+      removeAdultImages : ' useSelector(state => state.userName) ,',
+      enforceSafeSearch : ' useSelector(state => state.userName) ,' ,
+      blockedKeyWords : ' useSelector(state => state.userName) ,' ,
+      blockedLinks :' useSelector(state => state.userName) ,'
+    }));
+  }
 
-  console.log("Auuuth");
+  const registeredUser = {
+    id : useSelector(state => state.id) ,
+    userName : useSelector(state => state.userName) ,
+    email : useSelector(state => state.email) ,
+    removeAdultTweets : useSelector(state => state.removeAdultTweets) ,
+    removeAdultImages : useSelector(state => state.removeAdultImages),
+    enforceSafeSearch : useSelector(state => state.enforceSafeSearch) ,
+    blockedKeyWords : useSelector(state => state.blockedKeyWords) ,
+    blockedLinks : useSelector(state => state.blockedLinks)
+  }
+console.log(registeredUser);
+//handleUpdateUser();
+const rr = {
+  id : useSelector(state => state.id) ,
+  userName : useSelector(state => state.userName) ,
+  email : useSelector(state => state.email) ,
+  removeAdultTweets : useSelector(state => state.removeAdultTweets) ,
+  removeAdultImages : useSelector(state => state.removeAdultImages),
+  enforceSafeSearch : useSelector(state => state.enforceSafeSearch) ,
+  blockedKeyWords : useSelector(state => state.blockedKeyWords) ,
+  blockedLinks : useSelector(state => state.blockedLinks)
+}
+console.log(rr);
+  
 
+  const formRef = useRef(null);
   const showToastMessage = () => {
     toast.success('Successful !', {
         position: toast.POSITION.TOP_CENTER
@@ -51,6 +90,7 @@ export default function Auth () {
   const changeAuthMode = () => {
     user.userName = '' ;
     newUser.userName = '';
+    formRef.current.reset();
     setAuthMode(authMode === "signin" ? "signup" : "signin");
     setErrorLogin(false);
     setErrorSignUp(false);
@@ -67,15 +107,18 @@ export default function Auth () {
     setEmptySignUp(false);
     setEmptyLogin(false);
     setEmptySignUp(false)
+    console.log(newUser);
     if(newUser.password ==='' || newUser.email==='' || newUser.userName ==='')
       setEmptySignUp(true);
     else
     {
+      
+      console.log(registeredUser);
       token = await signUp();
       setErrorSignUp(!token);
       setVisibleSignUp(token);
       console.log(token);
-      token ? localStorage.setItem('userName', newUser.userName) : localStorage.setItem('userName', null);
+      
 
 
     } 
@@ -91,6 +134,7 @@ export default function Auth () {
     setEmptyLogin(false);
     let token = false ;
     e.preventDefault();
+    console.log(user);
     if(user.userName === '' || user.password === '')
       setEmptyLogin(true);
     else 
@@ -109,7 +153,7 @@ export default function Auth () {
     return (
       <div className="Auth-form-container">
         {visibleLogin && <ToastContainer />}
-        <form className="Auth-form">
+        <form ref={formRef}  className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
             <div className="text-center">
@@ -154,11 +198,10 @@ export default function Auth () {
       </div>
     )
   }
-
   return (
     <div className="Auth-form-container">
       {visibleSignUp && <ToastContainer />}
-      <form className="Auth-form">
+      <form ref={formRef}  className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign Up</h3>
           <div className="text-center">
