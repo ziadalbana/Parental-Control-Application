@@ -6,10 +6,9 @@
   }
 
 .b-Container{
-    width: 100vh;
+    width: 40vh;
     height: 100vh;
-    position: relative;
-
+    position: absolute;
   }
   
   body {
@@ -208,7 +207,7 @@
   .form-box {
     position: absolute;
     top: 10%;
-    left: 50%;
+    left: 130%;
     width: 1000px;
   }
 
@@ -252,4 +251,15 @@ h2 {
      margin-bottom: 20px;
   }
 
-  
+  .buttonsContainer{
+    z-index: 1000;
+    left: 1100px;
+    bottom: 10px;
+    margin: auto;
+    position: relative;
+    top: 450px;
+  }
+
+  .saveSetting{
+    margin-right: 20px;
+  }

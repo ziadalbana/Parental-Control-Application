@@ -1,4 +1,3 @@
-
 // Define an array of keywords to filter
 const adultKeywords = [];
 async function checkAdult(tweet) {
@@ -34,9 +33,7 @@ const observer = new MutationObserver(mutationsList => {
               const text={
                 tweet:tweetText
               }
-              setTimeout(() => {
-                console.log('Hello after 2 seconds');
-              }, 10000);
+             
               if (adultKeywords.some(keyword => tweetText.includes(keyword))) {
                 tweet.remove();
               }else {

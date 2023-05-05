@@ -18,21 +18,58 @@ import { SidebarData } from "./SlidebarData";
 // STYLES
 import "./Navbar.css";
 import { Toggle } from "./Toggle";
+import ModalComponent from "../Modal/Modal";
+
 
 export default function Navbar() {
+console.log("Rendring Navbar");
+
 
 const [adultImage , setAdultImage] = useState(false);
-const [safeSearch ] = useState(false);
-const [adultTweets ] = useState(false);
+const [safeSearch ,setSafeSearch ] = useState(false);
+const [adultTweets , setAdultTweets ] = useState(false);
+const [modalIsOpen, setModalIsOpen] = useState(false);
+const [type , setType] = useState("");
+const [data ,setData] = useState(false);
+
+async function getUser() {
+  console.log("naaaaaaaav");
+  return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
+  method: 'GET',
+  })
+  .then(data => data.json())
+}
+getUser().then((token) => {
+   setAdultImage();
+   setAdultTweets();
+   setSafeSearch();
+});
+    const openModal = () => {
+      setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+      setModalIsOpen(false);
+    };
+
 
  const ToggleAdultImages = () => {
+    setData(!adultImage);
     setAdultImage(!adultImage);
+    setType("adultImages");
+    openModal();
  }
  const ToggleSafeSearch = () => {
-    setAdultImage(!safeSearch);
+    setData(!safeSearch);
+    setSafeSearch(!safeSearch);
+    setType("safeSearch");
+    openModal();
  }
  const ToggleAdultTweets = () => {
-    setAdultImage(!adultTweets);
+    setData(!adultTweets);
+    setAdultTweets(!adultTweets);
+    setType("AdultTweets");
+    openModal();
  }
 
   return (
@@ -95,6 +132,7 @@ const [adultTweets ] = useState(false);
                 
 
           </ul>
+          <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type={type} data = {data} />
         </nav>
       </IconContext.Provider>
     </>

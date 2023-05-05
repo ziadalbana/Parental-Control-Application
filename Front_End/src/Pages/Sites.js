@@ -2,11 +2,23 @@ import React, { useState } from "react";
 import './Words.css';
 
 import { FaTimes } from 'react-icons/fa';
+import ModalComponent from "../Components/Modal/Modal";
+
 
 export default function Sites() {
 
     const [list , setList] = useState([]);
     const [newWord , setNewWord] = useState("");
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+
+    const openModal = () => {
+      setModalIsOpen(true);
+    };
+
+    const closeModal = () => {
+      setModalIsOpen(false);
+    };
 
     const handleInputChange = (event) => {
         setNewWord(event.target.value);
@@ -27,7 +39,15 @@ export default function Sites() {
         setList(list.filter((item, x) => e !== x));
     }
 
-
+    async function getUser() {
+      return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
+      method: 'GET',
+      })
+      .then(data => data.json())
+    }
+    getUser().then((token) => {
+       setList();
+    });
     
       
 
@@ -75,6 +95,11 @@ export default function Sites() {
           }
           </section>
            </div>
+           <div className="buttonsContainer">
+              <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
+                <button type="button" className="btn btn-outline-danger cancelSetting" >Cancel</button>
+           </div>
+            <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="sites" data = {list} />
         </div>
       );
 }

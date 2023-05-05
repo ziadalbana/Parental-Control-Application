@@ -2,51 +2,10 @@ import React , { useRef }from 'react'
 import './Auth.css'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector, useDispatch } from 'react-redux';
-import {  updateUser } from '../../action';
-
 import { useState } from "react"
 
 export default function Auth () {
-  const dispatch = useDispatch();
-  function handleUpdateUser() {
-    dispatch(updateUser({
-      id : 22,
-      userName :' useSelector(state => state.userName) ,',
-      email : ' useSelector(state => state.userName) ,' ,
-      removeAdultTweets : ' useSelector(state => state.userName) ,' ,
-      removeAdultImages : ' useSelector(state => state.userName) ,',
-      enforceSafeSearch : ' useSelector(state => state.userName) ,' ,
-      blockedKeyWords : ' useSelector(state => state.userName) ,' ,
-      blockedLinks :' useSelector(state => state.userName) ,'
-    }));
-  }
-
-  const registeredUser = {
-    id : useSelector(state => state.id) ,
-    userName : useSelector(state => state.userName) ,
-    email : useSelector(state => state.email) ,
-    removeAdultTweets : useSelector(state => state.removeAdultTweets) ,
-    removeAdultImages : useSelector(state => state.removeAdultImages),
-    enforceSafeSearch : useSelector(state => state.enforceSafeSearch) ,
-    blockedKeyWords : useSelector(state => state.blockedKeyWords) ,
-    blockedLinks : useSelector(state => state.blockedLinks)
-  }
-console.log(registeredUser);
-//handleUpdateUser();
-const rr = {
-  id : useSelector(state => state.id) ,
-  userName : useSelector(state => state.userName) ,
-  email : useSelector(state => state.email) ,
-  removeAdultTweets : useSelector(state => state.removeAdultTweets) ,
-  removeAdultImages : useSelector(state => state.removeAdultImages),
-  enforceSafeSearch : useSelector(state => state.enforceSafeSearch) ,
-  blockedKeyWords : useSelector(state => state.blockedKeyWords) ,
-  blockedLinks : useSelector(state => state.blockedLinks)
-}
-console.log(rr);
   
-
   const formRef = useRef(null);
   const showToastMessage = () => {
     toast.success('Successful !', {
@@ -113,7 +72,6 @@ console.log(rr);
     else
     {
       
-      console.log(registeredUser);
       token = await signUp();
       setErrorSignUp(!token);
       setVisibleSignUp(token);
