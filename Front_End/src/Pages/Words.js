@@ -1,23 +1,36 @@
 import React, { useState } from "react";
 import './Words.css';
+import { useSelector, useDispatch } from 'react-redux';
+import {  addBlockedKeyword , removeKeywordFromBlockedKeywords ,updateBlockedKeywords } from '../action';
 
 import { FaTimes } from 'react-icons/fa';
 
 export default function Words() {
 
-    const [list , setList] = useState([]);
+  const dispatch = useDispatch();
+    const [list , setList] = useState(useSelector(state => state.blockedKeyWords) );
     const [newWord , setNewWord] = useState("");
+
+    console.log(useSelector(state => state.blockedKeyWords)) ;
 
     const handleInputChange = (event) => {
         setNewWord(event.target.value);
       };
 
+
+      function handleAddNewWord(word) {
+        dispatch(addBlockedKeyword(word));
+      }
+      function handleRemoveKeyword(list) {
+        dispatch(updateBlockedKeywords(list));
+      }
     const addNewWord = (e) => {
         e.preventDefault();
         if(newWord === '')
             return ;
-        console.log("sdkjhdjhdfjf")
         setList([...list , newWord]);
+        handleAddNewWord(newWord);
+        
         setNewWord("");
     }
 
