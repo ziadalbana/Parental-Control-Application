@@ -7,7 +7,6 @@ Modal.setAppElement('#root');
 
 export default function ModalComponent(props) {
 
-    console.log(props.type)
     let [wrongPassword, setWrongPassword] = useState(false);
     let [emptyPassword, setEmptyPassword] = useState(false);
     const [inputUser ,setInputUser] = useState({
@@ -73,7 +72,11 @@ export default function ModalComponent(props) {
             .then(data => data.json())
         }
 
-
+     function close(){
+        props.closeModal();
+        if(props.type === 'adultImages' || props.type === 'safeSearch' || props.type === 'AdultTweets')
+            window.location.reload();
+     }
         
         
        async function saveChanges(){
@@ -97,7 +100,6 @@ export default function ModalComponent(props) {
           {
             if(props.type === "words")
             {
-                console.log("vvvvvvvvvvv");
                 await saveWords(props.data);
             }else if(props.type === "sites")
             {
@@ -110,10 +112,8 @@ export default function ModalComponent(props) {
                 await triggerSafeSearch(props.data);
             }else if(props.type === "AdultTweets")
             {
-                console.log("zzzzz")
                 await triggerAdultTweets(props.data);
             }
-            console.log(token);
           }
           
         }
@@ -145,7 +145,7 @@ const customStyles = {
             <Form.Control type="password" placeholder="Password" onChange={e => inputUser.password = e.target.value} />
         </Form.Group>
         <button type="button" className="btn btn-primary" onClick={saveChanges} style={{marginRight : '10px'}}>Submit</button>
-        <button type="button" className="btn btn-danger" onClick={props.closeModal}>cancel</button>
+        <button type="button" className="btn btn-danger" onClick={close}>cancel</button>
         </Form>
     </Modal>
   )

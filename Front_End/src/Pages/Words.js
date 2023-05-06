@@ -25,7 +25,9 @@ export default function Words() {
       .then(data => data.json())
     }
 
-
+  function cancel (){
+    window.location.reload();
+  }
     useEffect(() => {
       console.log('Component mounted!');
       getUser().then((token) => {
@@ -101,7 +103,7 @@ export default function Words() {
 
            <div className="buttonsContainer">
               <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
-                <button type="button" className="btn btn-outline-danger cancelSetting" >Cancel</button>
+                <button type="button" className="btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
            </div>
             <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="words" data = {list} />
         </div>

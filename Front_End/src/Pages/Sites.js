@@ -18,7 +18,9 @@ export default function Sites() {
     const closeModal = () => {
       setModalIsOpen(false);
     };
-
+    function cancel (){
+      window.location.reload();
+    }
     async function getUser() {
       return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
       method: 'GET',
@@ -99,7 +101,7 @@ export default function Sites() {
            </div>
            <div className="buttonsContainer">
               <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
-                <button type="button" className="btn btn-outline-danger cancelSetting" >Cancel</button>
+                <button type="button" className="btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
            </div>
             <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="sites" data = {list} />
         </div>
