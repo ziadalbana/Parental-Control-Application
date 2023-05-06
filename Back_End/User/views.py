@@ -24,32 +24,34 @@ class SignUp(APIView):
 
         if username is not None:
             # Check if the username already exists
-            if User.objects.filter(userName=username).exists():
-                return Response({'error': 'Username already exists.'}, status=status.HTTP_400_BAD_REQUEST)
+            if User.objects.filter(userName=username).first() is not None:
+                return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
         serializer = UserSerializer(data=user_data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'result': 'True'}, status=status.HTTP_200_OK)
+        return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
 
 class SignIn(APIView):
     def post(self, request):
         print("SignIn", flush=True)
-        username = request.data.get('userName')
-        plaintext_password = request.data.get('password')
+        print(request)
+        user_data = JSONParser().parse(request)
+        username = user_data.get('userName', None)
+        plaintext_password = user_data.get('password', None)
         user = User.objects.filter(userName=username).first()
         print(username, plaintext_password)
 
         if user is None:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
         if not check_password(plaintext_password, user.password):
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
-        serializer = UserSerializer(user)
-        return Response(serializer.data)
+        # serializer = UserSerializer(user)
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
 
 
 class UserDetails(APIView):
@@ -62,23 +64,63 @@ class UserDetails(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class BlockedLinks(APIView):
-    def get(self, request, username):
+class EnforceSafeSearch(APIView):
+    def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-        blocked_links = user.blockedLinks
-        if blocked_links is not None:
-            return Response({'blockedLinks': blocked_links})
-        else:
-            return Response({'blockedLinks': []})
 
+        enforce_safe_search = request.data.get('enforceSafeSearch')
+        # if not enforce_safe_search:
+        #     return Response({'error': 'Enforce safe search not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.enforceSafeSearch = enforce_safe_search
+        user.save()
+
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
+
+
+class RemoveAdultTweets(APIView):
+    def patch(self, request, username):
+        user = User.objects.filter(userName=username).first()
+        if not user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        remove_adult_tweets = request.data.get('removeAdultTweets')
+        # if not remove_adult_tweets:
+        #     return Response({'error': 'Remove adult tweets not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.removeAdultTweets = remove_adult_tweets
+        user.save()
+
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
+
+
+class RemoveAdultImages(APIView):
+    def patch(self, request, username):
+        user = User.objects.filter(userName=username).first()
+        if not user:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        remove_adult_images = request.data.get('removeAdultImages')
+        print(remove_adult_images)
+        # if remove_adult_images is not None:
+        #     return Response({'error': 'Remove adult images not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.removeAdultImages = remove_adult_images
+        user.save()
+
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
+
+
+class BlockedLinks(APIView):
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         blocked_links = request.data.get('blockedLinks')
+        print(blocked_links)
         if not blocked_links:
             return Response({'error': 'Blocked links not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -86,20 +128,10 @@ class BlockedLinks(APIView):
         user.save()
 
         # serializer = UserSerializer(user)
-        return Response(status=status.HTTP_200_OK)
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
 
 
 class BlockedKeyWords(APIView):
-    def get(self, request, username):
-        user = User.objects.filter(userName=username).first()
-        if not user:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
-        blocked_keywords = user.blockedKeyWords
-        if blocked_keywords is not None:
-            return Response({'blockedKeyWords': blocked_keywords})
-        else:
-            return Response({'blockedKeyWords': []})
-
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -109,11 +141,11 @@ class BlockedKeyWords(APIView):
         if not blocked_keywords:
             return Response({'error': 'Blocked KeyWords are not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-        user.blockedLinks = blocked_keywords
+        user.blockedKeyWords = blocked_keywords
         user.save()
 
         # serializer = UserSerializer(user)
-        return Response(status=status.HTTP_200_OK)
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
 
 
 class model_predict(APIView):

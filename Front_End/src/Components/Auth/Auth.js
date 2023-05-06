@@ -31,6 +31,7 @@ export default function Auth () {
   });
 
   async function loginUser() {
+    console.log(user);
     return fetch('http://localhost:8000/user/signin', {
       method: 'POST',
       body: JSON.stringify(user)
@@ -73,14 +74,19 @@ export default function Auth () {
     {
       
       token = await signUp();
-      setErrorSignUp(!token);
-      setVisibleSignUp(token);
       console.log(token);
-      
+      const resp_status = token.result === 'True';
+      console.log(resp_status);
+      if (resp_status) {
+        console.log('good status');
+        localStorage.setItem('userName', newUser.userName);
+        window.location.reload();
+      }
 
-
+      setErrorSignUp(!resp_status);
+      setVisibleSignUp(resp_status);
     } 
-    setVisibleSignUp(token);
+    //setVisibleSignUp(token);
 
   }
 
@@ -98,13 +104,18 @@ export default function Auth () {
     else 
     {
       token = await loginUser();
-      setErrorLogin(!token);
-      console.log(token);
-      console.log(user);
-      token ? localStorage.setItem('userName', newUser.userName) : localStorage.setItem('userName', null);
-      
+      const resp_status = token.result === 'True';
+      console.log(resp_status);
+      if (resp_status) {
+        console.log('good status');
+        localStorage.setItem('userName', user.userName);
+        window.location.reload();
+      }
+
+      setErrorLogin(!resp_status);
+      setVisibleLogin(resp_status);
     }
-    setVisibleLogin(token);
+    
   }
 
   if (authMode === "signin") {

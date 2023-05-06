@@ -22,7 +22,8 @@ function App() {
 
  console.log('Rendering App component');
 
- const [user ] = useState(true);
+ const [user ] = useState(localStorage.getItem('userName'));
+ console.log(user);
 
  
   return (

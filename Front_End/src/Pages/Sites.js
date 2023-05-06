@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef , useState, useEffect } from "react";
 import './Words.css';
 
 import { FaTimes } from 'react-icons/fa';
@@ -7,10 +7,9 @@ import ModalComponent from "../Components/Modal/Modal";
 
 export default function Sites() {
 
-    const [list , setList] = useState([]);
-    const [newWord , setNewWord] = useState("");
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [list , setList] = useState([] );
+  const inputRef = useRef(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
       setModalIsOpen(true);
@@ -20,17 +19,32 @@ export default function Sites() {
       setModalIsOpen(false);
     };
 
-    const handleInputChange = (event) => {
-        setNewWord(event.target.value);
-      };
-
-    const addNewWord = (e) => {
-        e.preventDefault();
-        if(newWord === '')
-            return ;
-        setList([...list , newWord]);
-        setNewWord("");
+    async function getUser() {
+      return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
+      method: 'GET',
+      })
+      .then(data => data.json())
     }
+
+    useEffect(() => {
+      console.log('Component mounted!');
+      getUser().then((token) => {
+        console.log("kkkkkkkk")
+        setList(token.blockedLinks);
+      });
+    }, []);
+
+ 
+
+   
+    const addNewWord = (e) => {
+      e.preventDefault();
+      const newWord = inputRef.current.value.trim();
+      if (newWord !== '') {
+        setList([...list , newWord]);
+        inputRef.current.value = '';
+      }
+  }
 
     const clearAllPills = () => {
         setList([]);
@@ -38,17 +52,6 @@ export default function Sites() {
     const removePill = (e) => {
         setList(list.filter((item, x) => e !== x));
     }
-
-    async function getUser() {
-      return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
-      method: 'GET',
-      })
-      .then(data => data.json())
-    }
-    getUser().then((token) => {
-       setList();
-    });
-    
       
 
     return (
@@ -59,8 +62,7 @@ export default function Sites() {
             <input
               className="b-TextInput--lg size-100"
               placeholder={"Add a new Site..."}
-              value={newWord}
-              onChange={(event) => handleInputChange(event)}
+              ref={inputRef} 
               />
             <button onClick={addNewWord} className="b-Button--primary">Add</button>
           </form>

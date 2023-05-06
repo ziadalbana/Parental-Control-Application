@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useRef  , useState, useEffect } from "react";
 import './Words.css';
 
 import { FaTimes } from 'react-icons/fa';
@@ -6,7 +6,7 @@ import ModalComponent from "../Components/Modal/Modal";
 
 export default function Words() {
     const [list , setList] = useState([] );
-    const [newWord , setNewWord] = useState("");
+    const inputRef = useRef(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
@@ -17,19 +17,35 @@ export default function Words() {
       setModalIsOpen(false);
     };
 
+    async function getUser() {
+      console.log("getttttttttttttttt wooooord")
+      return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
+      method: 'GET',
+      })
+      .then(data => data.json())
+    }
 
-    const handleInputChange = (event) => {
-        setNewWord(event.target.value);
-      };
+
+    useEffect(() => {
+      console.log('Component mounted!');
+      getUser().then((token) => {
+        console.log("kkkkkkkk")
+        setList(token.blockedKeyWords);
+      });
+    }, []);
+
+
+
 
 
     
     const addNewWord = (e) => {
         e.preventDefault();
-        if(newWord === '')
-            return ;
-        setList([...list , newWord]);        
-        setNewWord("");
+        const newWord = inputRef.current.value.trim();
+        if (newWord !== '') {
+          setList([...list , newWord]);
+          inputRef.current.value = '';
+        }
     }
 
     const clearAllPills = () => {
@@ -39,19 +55,6 @@ export default function Words() {
         setList(list.filter((item, x) => e !== x));
     }
 
-
-    async function getUser() {
-      console.log("getttttttttttttttt wooooord")
-      return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
-      method: 'GET',
-      })
-      .then(data => data.json())
-    }
-    getUser().then((token) => {
-       setList();
-    });
-      
-
     return (
         <div className="b-Container">
            <div className="form-box">
@@ -60,8 +63,7 @@ export default function Words() {
             <input
               className="b-TextInput--lg size-100"
               placeholder={"Add a new Word..."}
-              value={newWord}
-              onChange={(event) => handleInputChange(event)}
+              ref={inputRef} 
               />
             <button onClick={addNewWord} className="b-Button--primary">Add</button>
           </form>

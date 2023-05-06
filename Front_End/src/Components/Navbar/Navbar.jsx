@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from './logo.png';
 
 // ICONS
@@ -39,11 +39,15 @@ async function getUser() {
   })
   .then(data => data.json())
 }
-getUser().then((token) => {
-   setAdultImage();
-   setAdultTweets();
-   setSafeSearch();
-});
+
+useEffect(() => {
+  console.log('Component mounted!');
+  getUser().then((token) => {
+    setAdultImage();
+    setAdultTweets();
+    setSafeSearch();
+  });
+}, []);
     const openModal = () => {
       setModalIsOpen(true);
     };

@@ -23,8 +23,9 @@ export default function ModalComponent(props) {
             .then(data => data.json())
        }
        async function saveWords(words) {
-        return fetch(`http://localhost:8000/user/blockedKeyWords/${inputUser.userName}`, {
-        method: 'POST',
+        return fetch(`http://localhost:8000/user/blockedkeywords/${inputUser.userName}`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
             blockedKeyWords : words 
         })
@@ -32,17 +33,19 @@ export default function ModalComponent(props) {
         .then(data => data.json())
         }
         async function saveSites(sites) {
-            return fetch(`http://localhost:8000/user/blockedLinkes/${inputUser.userName}`, {
-            method: 'POST',
+            return fetch(`http://localhost:8000/user/blockedlinkes/${inputUser.userName}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                blockedLinkes : sites 
+                blockedLinks : sites 
             })
             })
             .then(data => data.json())
         }
         async function triggerAdultTweets(adult) {
-            return fetch(`http://localhost:8000/user/removeAdultTweets/${inputUser.userName}`, {
-            method: 'POST',
+            return fetch(`http://localhost:8000/user/removetweets/${inputUser.userName}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 removeAdultTweets : adult 
             })
@@ -50,8 +53,9 @@ export default function ModalComponent(props) {
             .then(data => data.json())
         }
         async function triggerAdultImages(adult) {
-            return fetch(`http://localhost:8000/user/removeAdultImages/${inputUser.userName}`, {
-            method: 'POST',
+            return fetch(`http://localhost:8000/user/removeimages/${inputUser.userName}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 removeAdultImages : adult 
             })
@@ -59,8 +63,9 @@ export default function ModalComponent(props) {
             .then(data => data.json())
         }
         async function triggerSafeSearch(adult) {
-            return fetch(`http://localhost:8000/user/enforceSafeSearch/${inputUser.userName}`, {
-            method: 'POST',
+            return fetch(`http://localhost:8000/user/enforcesafesearch/${inputUser.userName}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 enforceSafeSearch : adult 
             })
@@ -84,27 +89,31 @@ export default function ModalComponent(props) {
         {
           let token = false ;
            token = await checkUser();
-           setWrongPassword(!token);
+           setWrongPassword(!token.result);
           console.log(token);
-          const isCorrectPassword = token.response ;
+          const isCorrectPassword = token.result ;
+          console.log(isCorrectPassword);
           if(isCorrectPassword)
           {
             if(props.type === "words")
             {
-                token = await saveWords(props.data);
+                console.log("vvvvvvvvvvv");
+                await saveWords(props.data);
             }else if(props.type === "sites")
             {
-                token = await saveSites(props.data);
+                await saveSites(props.data);
             }else if(props.type === "adultImages")
             {
-                token = await triggerAdultImages(props.data);
-            }else if(props.types === "safeSearch")
+                await triggerAdultImages(props.data);
+            }else if(props.type === "safeSearch")
             {
-                token = await triggerSafeSearch(props.data);
-            }else if(props.types === "AdultTweets")
+                await triggerSafeSearch(props.data);
+            }else if(props.type === "AdultTweets")
             {
-                token = await triggerAdultTweets(props.data);
+                console.log("zzzzz")
+                await triggerAdultTweets(props.data);
             }
+            console.log(token);
           }
           
         }
