@@ -16,10 +16,10 @@ export default function Home() {
           Protect Your Child From adult Content using these 5 features
         </h4>
         <ul>
-          <li>Blocking custom Keywords</li>
-          <li>Blocking specific website</li>
-          <li>Blocking Adult Images</li>
-          <li>Blocking Adult Tweets</li>
+          <li>Block custom Keywords</li>
+          <li>Block specific website</li>
+          <li>Block Adult Images</li>
+          <li>Block Adult Tweets</li>
           <li>Enforce Safe Search</li>
         </ul>
       </div>

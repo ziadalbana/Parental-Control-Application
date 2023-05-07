@@ -3,6 +3,9 @@
   "description": "The power of React and TypeScript for building interactive Chrome extensions",
   "version": "1.0",
   "manifest_version": 3,
+  "permissions": [
+    "tabs"
+  ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
