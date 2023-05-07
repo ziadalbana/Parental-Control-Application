@@ -22,7 +22,6 @@ import ModalComponent from "../Modal/Modal";
 
 
 export default function Navbar() {
-console.log("Rendring Navbar");
 
 
 const [adultImage , setAdultImage] = useState(false);
@@ -33,7 +32,6 @@ const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 
 async function getUser() {
-  console.log("naaaaaaaav");
   return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
   method: 'GET',
   })
@@ -41,11 +39,10 @@ async function getUser() {
 }
 
 useEffect(() => {
-  console.log('Component mounted!');
   getUser().then((token) => {
-    setAdultImage();
-    setAdultTweets();
-    setSafeSearch();
+    setAdultImage(token.removeAdultImages);
+    setAdultTweets(token.removeAdultTweets);
+    setSafeSearch(token.enforceSafeSearch);
   });
 }, []);
     const openModal = () => {

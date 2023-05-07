@@ -1,24 +1,18 @@
 import React , { useRef }from 'react'
 import './Auth.css'
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState } from "react"
 
 export default function Auth () {
   
   const formRef = useRef(null);
-  const showToastMessage = () => {
-    toast.success('Successful !', {
-        position: toast.POSITION.TOP_CENTER
-    });
-};
+ 
   let [authMode, setAuthMode] = useState("signin");
   let [errorLogin, setErrorLogin] = useState(false);
   let [emptyLogin, setEmptyLogin] = useState(false);
   let [errorSignUp, setErrorSignUp] = useState(false);
   let [EmptySignUp, setEmptySignUp] = useState(false);
-  let [visibleLogin, setVisibleLogin] = useState(false);
-  let [visibleSignUp, setVisibleSignUp] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const [user] = useState({
     userName: '',
@@ -60,45 +54,38 @@ export default function Auth () {
   }
   const HandleSignUp = async e => {
     e.preventDefault();
+    setIsButtonDisabled(true);
     let token = false ;
-    showToastMessage();
     setErrorLogin(false);
     setErrorSignUp(false);
-    setEmptySignUp(false);
     setEmptyLogin(false);
     setEmptySignUp(false)
-    console.log(newUser);
     if(newUser.password ==='' || newUser.email==='' || newUser.userName ==='')
       setEmptySignUp(true);
     else
     {
-      
       token = await signUp();
-      console.log(token);
       const resp_status = token.result === 'True';
-      console.log(resp_status);
       if (resp_status) {
-        console.log('good status');
         localStorage.setItem('userName', newUser.userName);
         window.location.reload();
       }
 
       setErrorSignUp(!resp_status);
-      setVisibleSignUp(resp_status);
     } 
-    //setVisibleSignUp(token);
+    setIsButtonDisabled(false);
 
   }
 
   const HandleSignIn = async e => {
-    showToastMessage();
+    setIsButtonDisabled(true);
     setErrorLogin(false);
     setErrorSignUp(false);
     setEmptySignUp(false);
     setEmptyLogin(false);
     let token = false ;
     e.preventDefault();
-    console.log(user);
+    
     if(user.userName === '' || user.password === '')
       setEmptyLogin(true);
     else 
@@ -107,21 +94,20 @@ export default function Auth () {
       const resp_status = token.result === 'True';
       console.log(resp_status);
       if (resp_status) {
-        console.log('good status');
         localStorage.setItem('userName', user.userName);
         window.location.reload();
       }
 
       setErrorLogin(!resp_status);
-      setVisibleLogin(resp_status);
     }
+
+    setIsButtonDisabled(false);
     
   }
 
   if (authMode === "signin") {
     return (
       <div className="Auth-form-container">
-        {visibleLogin && <ToastContainer />}
         <form ref={formRef}  className="Auth-form">
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
@@ -156,7 +142,7 @@ export default function Auth () {
                 There is an Empty Field !
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary" onClick={HandleSignIn}>
+              <button type="submit" className="btn btn-primary" onClick={HandleSignIn} disabled={isButtonDisabled}>
                 Submit
               </button>
             </div>
@@ -169,7 +155,6 @@ export default function Auth () {
   }
   return (
     <div className="Auth-form-container">
-      {visibleSignUp && <ToastContainer />}
       <form ref={formRef}  className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign Up</h3>
@@ -213,7 +198,7 @@ export default function Auth () {
               There is an Empty Field !
             </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary" onClick={HandleSignUp}>
+            <button type="submit" className="btn btn-primary" onClick={HandleSignUp} disabled={isButtonDisabled}>
               Submit
             </button>
           </div>

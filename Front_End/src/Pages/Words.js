@@ -3,11 +3,13 @@ import './Words.css';
 
 import { FaTimes } from 'react-icons/fa';
 import ModalComponent from "../Components/Modal/Modal";
+import { ClipLoader } from "react-spinners";
 
 export default function Words() {
     const [list , setList] = useState([] );
     const inputRef = useRef(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const openModal = () => {
       setModalIsOpen(true);
@@ -18,7 +20,6 @@ export default function Words() {
     };
 
     async function getUser() {
-      console.log("getttttttttttttttt wooooord")
       return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
       method: 'GET',
       })
@@ -29,10 +30,9 @@ export default function Words() {
     window.location.reload();
   }
     useEffect(() => {
-      console.log('Component mounted!');
       getUser().then((token) => {
-        console.log("kkkkkkkk")
         setList(token.blockedKeyWords);
+        setLoading(false);
       });
     }, []);
 
@@ -57,55 +57,58 @@ export default function Words() {
         setList(list.filter((item, x) => e !== x));
     }
 
-    return (
-        <div className="b-Container">
-           <div className="form-box">
-            <h2>Block By Words</h2>
-           <form className="search-container">
-            <input
-              className="b-TextInput--lg size-100"
-              placeholder={"Add a new Word..."}
-              ref={inputRef} 
-              />
-            <button onClick={addNewWord} className="b-Button--primary">Add</button>
-          </form>
-        <section>
-          {list.length > 0
-            ?
-          <div role="button" className="pill pill-clear" onClick={clearAllPills}>
-            <div className="pill-content">
-              <p className="padding-right">Clear All</p>
-            </div>
-          </div>
-            :
-          null}
-          
-          {list.map((query, index) => {
-              return (
-                <div role="button" className="pill pill-query">
-                  <div className="pill-content">
-                    <p className="padding-right">{query}</p>
-                    <button
-                    className="pill-close"
-                    onClick={() => removePill(index)}
-                    tabIndex="0"
-                    >
-                    <FaTimes />
-                  </button>
-                    
-                  </div>
-                </div>
-              )
-            })
-          }
-          </section>
+    return loading ?  
+    <div className="spinner-container">
+      <ClipLoader color="#000" loading={true} size={50} />
+    </div>
+    :
+    <div className="b-Container">
+    <div className="form-box">
+     <h2>Block By Words</h2>
+    <form className="search-container">
+     <input
+       className="b-TextInput--lg size-100"
+       placeholder={"Add a new Word..."}
+       ref={inputRef} 
+       />
+     <button onClick={addNewWord} className="b-Button--primary">Add</button>
+   </form>
+ <section>
+   {list.length > 0
+     ?
+   <div role="button" className="pill pill-clear" onClick={clearAllPills}>
+     <div className="pill-content">
+       <p className="padding-right">Clear All</p>
+     </div>
+   </div>
+     :
+   null}
+   
+   {list.map((query, index) => {
+       return (
+         <div role="button" className="pill pill-query">
+           <div className="pill-content">
+             <p className="padding-right">{query}</p>
+             <button
+             className="pill-close"
+             onClick={() => removePill(index)}
+             tabIndex="0"
+             >
+             <FaTimes />
+           </button>
+             
            </div>
+         </div>
+       )
+     })
+   }
+   </section>
+    </div>
 
-           <div className="buttonsContainer">
-              <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
-                <button type="button" className="btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
-           </div>
-            <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="words" data = {list} />
-        </div>
-      );
+    <div className="buttonsContainer">
+       <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
+         <button type="button" className="btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
+    </div>
+     <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="words" data = {list} />
+ </div>
 }

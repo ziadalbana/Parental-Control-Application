@@ -3,6 +3,8 @@ import './Words.css';
 
 import { FaTimes } from 'react-icons/fa';
 import ModalComponent from "../Components/Modal/Modal";
+import { ClipLoader } from "react-spinners";
+
 
 
 export default function Sites() {
@@ -10,6 +12,7 @@ export default function Sites() {
   const [list , setList] = useState([] );
   const inputRef = useRef(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
 
     const openModal = () => {
       setModalIsOpen(true);
@@ -29,10 +32,9 @@ export default function Sites() {
     }
 
     useEffect(() => {
-      console.log('Component mounted!');
       getUser().then((token) => {
-        console.log("kkkkkkkk")
         setList(token.blockedLinks);
+        setLoading(false);
       });
     }, []);
 
@@ -56,7 +58,11 @@ export default function Sites() {
     }
       
 
-    return (
+    return loading ?  
+    <div className="spinner-container">
+      <ClipLoader color="#000" loading={true} size={50} />
+    </div>
+    :
         <div className="b-Container">
            <div className="form-box">
             <h2>Block Sites</h2>
@@ -105,5 +111,5 @@ export default function Sites() {
            </div>
             <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="sites" data = {list} />
         </div>
-      );
+      
 }
