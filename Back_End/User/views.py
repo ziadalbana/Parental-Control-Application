@@ -10,15 +10,15 @@ from .models import User
 import torch
 from django.conf import settings
 from .preprocessing import *
+import jwt
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 
 # Create your views here.
 class SignUp(APIView):
     def post(self, request):
-        print("SignUp", flush=True)
-
         user_data = JSONParser().parse(request)
-        print(user_data)
 
         username = user_data.get('userName', None)
 
@@ -30,7 +30,9 @@ class SignUp(APIView):
         serializer = UserSerializer(data=user_data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'result': 'True'}, status=status.HTTP_200_OK)
+            payload = {'username': username}
+            token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+            return JsonResponse({'token': token.decode()})
         return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
 
@@ -50,11 +52,15 @@ class SignIn(APIView):
         if not check_password(plaintext_password, user.password):
             return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
-        # serializer = UserSerializer(user)
-        return Response({'result': 'True'}, status=status.HTTP_200_OK)
+        payload = {'username': username}
+        token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
+        return JsonResponse({'token': token.decode()})
 
 
 class UserDetails(APIView):
+    @api_view(['GET'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def get(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -65,6 +71,9 @@ class UserDetails(APIView):
 
 
 class EnforceSafeSearch(APIView):
+    @api_view(['PUT'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -81,6 +90,9 @@ class EnforceSafeSearch(APIView):
 
 
 class RemoveAdultTweets(APIView):
+    @api_view(['PUT'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -97,6 +109,9 @@ class RemoveAdultTweets(APIView):
 
 
 class RemoveAdultImages(APIView):
+    @api_view(['PUT'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -114,6 +129,9 @@ class RemoveAdultImages(APIView):
 
 
 class BlockedLinks(APIView):
+    @api_view(['PUT'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -132,6 +150,9 @@ class BlockedLinks(APIView):
 
 
 class BlockedKeyWords(APIView):
+    @api_view(['PUT'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -187,6 +208,9 @@ class model_predict(APIView):
     #     # Print the predicted probabilities for each class
     #     y_pred = np.argmax(all_preds, axis=1)
     #     return Response(y_pred[0])
+    @api_view(['POST'])
+    @authentication_classes([])
+    @permission_classes([IsAuthenticated])
     def post(self, request):
         model = settings.GLOBAL_MODEL
         tokenizer = settings.GLOBAL_TOKENIZER
