@@ -120,9 +120,6 @@ class BlockedLinks(APIView):
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         blocked_links = request.data.get('blockedLinks')
-        print(blocked_links)
-        if not blocked_links:
-            return Response({'error': 'Blocked links not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
         user.blockedLinks = blocked_links
         user.save()
@@ -138,9 +135,6 @@ class BlockedKeyWords(APIView):
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
         blocked_keywords = request.data.get('blockedKeyWords')
-        if not blocked_keywords:
-            return Response({'error': 'Blocked KeyWords are not provided'}, status=status.HTTP_400_BAD_REQUEST)
-
         user.blockedKeyWords = blocked_keywords
         user.save()
 
