@@ -59,7 +59,6 @@ class SignIn(APIView):
 
 class UserDetails(APIView):
     @api_view(['GET'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def get(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -72,7 +71,6 @@ class UserDetails(APIView):
 
 class EnforceSafeSearch(APIView):
     @api_view(['PUT'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -91,7 +89,6 @@ class EnforceSafeSearch(APIView):
 
 class RemoveAdultTweets(APIView):
     @api_view(['PUT'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -110,7 +107,6 @@ class RemoveAdultTweets(APIView):
 
 class RemoveAdultImages(APIView):
     @api_view(['PUT'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -130,7 +126,6 @@ class RemoveAdultImages(APIView):
 
 class BlockedLinks(APIView):
     @api_view(['PUT'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -151,7 +146,6 @@ class BlockedLinks(APIView):
 
 class BlockedKeyWords(APIView):
     @api_view(['PUT'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -209,7 +203,6 @@ class model_predict(APIView):
     #     y_pred = np.argmax(all_preds, axis=1)
     #     return Response(y_pred[0])
     @api_view(['POST'])
-    @authentication_classes([])
     @permission_classes([IsAuthenticated])
     def post(self, request):
         model = settings.GLOBAL_MODEL
