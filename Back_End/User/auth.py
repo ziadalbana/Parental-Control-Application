@@ -1,3 +1,8 @@
+import jwt
+from django.conf import settings
+from User.models import User
+
+
 class JWTAuthentication():
     def authenticate(self, request):
         auth_header = request.headers.get('Authorization')
@@ -14,6 +19,6 @@ class JWTAuthentication():
             if not user:
                 return None
             
-            return True
+            return user
         except:
             return None
