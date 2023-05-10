@@ -55,7 +55,9 @@ useEffect(() => {
     setSafeSearch(token.enforceSafeSearch);
     setLoading(false);
   });
-}, []);
+
+
+}, [safeSearch , adultImage , adultTweets]);
     const openModal = () => {
       setModalIsOpen(true);
     };
