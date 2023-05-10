@@ -1,6 +1,4 @@
-from rest_framework.authentication import BaseAuthentication
-
-class JWTAuthentication(BaseAuthentication):
+class JWTAuthentication():
     def authenticate(self, request):
         auth_header = request.headers.get('Authorization')
 
@@ -12,8 +10,10 @@ class JWTAuthentication(BaseAuthentication):
             payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
             username = payload.get('username')
             user = User.objects.filter(userName=username).first()
+            
             if not user:
                 return None
-            return (user, None)
+            
+            return True
         except:
             return None

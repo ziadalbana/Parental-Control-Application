@@ -1,10 +1,11 @@
 {
   "name": "KiDefender",
-  "description": "The power of React and TypeScript for building interactive Chrome extensions",
+  "description": "KiDefender is a chrome extension that helps you to protect your kids from inappropriate content on the internet.",
   "version": "1.0",
   "manifest_version": 3,
   "permissions": [
-    "tabs" , "storage"
+    "activeTab", "tabs", "storage", "declarativeNetRequest",
+    "webNavigation"
   ],
   "content_scripts": [
     {
@@ -17,6 +18,12 @@
   "background": {
     "service_worker": "background.js"
   },
+  "web_accessible_resources": [
+    {
+    "resources": ["blockedPage.html"],
+    "matches": ["<all_urls>"]
+    }
+  ],
   "action": {
     "default_popup": "",
     "default_title": "KiDefender",
@@ -31,4 +38,5 @@
       "48": "logo192.png",
       "128": "logo192.png"
   }
+  
 }
