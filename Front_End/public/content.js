@@ -1,17 +1,20 @@
-// Define an array of keywords to filter
+
+
 let adultKeywords = [];
-let adultLinks = [] ;
-let removeAdultTweets = false ;
-let removeAdultImages = false ;
-let enforceSafeSearch = false ;
-async function getUser() {
-  const username ='ziadA';
-  console.log(username);
-  return fetch(`http://localhost:8000/user/getuser/`+username, {
+let adultLinks = [];
+let removeAdultTweets = false;
+let removeAdultImages = false;
+let enforceSafeSearch = false;
+
+let username ;
+
+async function getUser(username) {
+  return fetch(`http://localhost:8000/user/getuser/${username}`, {
   method: 'GET',
   })
   .then(data => data.json())
 }
+
 async function checkAdult(tweet) {
   return fetch('http://localhost:8000/user/checkadult', {
     headers: {
@@ -23,47 +26,39 @@ async function checkAdult(tweet) {
     .then(data => data.json())
  }
 
- getUser().then((token) => {
-  console.log(token);
-  adultKeywords = [...token.blockedKeyWords] ;
-  adultLinks = [...token.blockedLinks];
-  removeAdultTweets = token.removeAdultTweets ;
-  removeAdultImages = token.removeAdultImages ;
-  enforceSafeSearch = token.enforceSafeSearch ;
-  console.log(adultKeywords) ;
-  console.log(adultLinks) ;
-  console.log(removeAdultTweets) ;
-  console.log(removeAdultImages) ;
-  console.log(enforceSafeSearch) ;
+chrome.storage.local.get(['userName'], function(result) {
+  username = result.userName;
+  alert(`userName retrieved successfully: ${username}`)
+  if(username)
+  {
+    getUser().then((token) => {
+      // Update the values of the variables from the token object
+      adultKeywords = token.adultKeywords || [];
+      adultLinks = token.adultLinks || [];
+      removeAdultTweets = token.removeAdultTweets || false;
+      removeAdultImages = token.removeAdultImages || false;
+      enforceSafeSearch = token.enforceSafeSearch || false;
 
+      console.log('Variables updated successfully from token:', adultKeywords, adultLinks, removeAdultTweets, removeAdultImages, enforceSafeSearch);
+    
+    });
+  }else 
+    return ;
 });
 
-
-// block adult links
-  
-// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-//   console.log(tabs[0].url);
-//   var tabUrl = tabs[0].url;
-//   if (adultLinks.some(word => tabUrl.includes(word))) {
-//     var tabId = tabs[0].id;
-//     chrome.tabs.update(tabId, { url: chrome.extension.getURL("blockedPage.html") });
-//   }
-// });
-
-//enforce safe search
-// if(enforceSafeSearch)
-// {
-//   chrome.storage.sync.set({ isSafeSearchEnabled: !isSafeSearchEnabled });
-// }
-//remove adult images
-if(removeAdultImages)
-{
-
-}
-
-
-
-// Create a MutationObserver to observe changes to the DOM
+ 
+ if(username){
+   //enforce safe search
+   if(enforceSafeSearch)
+   {
+   
+   }
+   //remove adult images
+   if(removeAdultImages)
+   {
+   
+   }
+  // Create a MutationObserver to observe changes to the DOM
 const observer = new MutationObserver(mutationsList => {
   for (const mutation of mutationsList) {
     if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
@@ -108,3 +103,7 @@ const observer = new MutationObserver(mutationsList => {
 
 // Start observing changes to the DOM
 observer.observe(document.body, { childList: true, subtree: true });
+}else 
+{
+  alert("Kidefender doesn't work, Please Sign in again");
+}
