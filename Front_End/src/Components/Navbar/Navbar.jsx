@@ -31,9 +31,15 @@ const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 const [loading, setLoading] = useState(true);
+
 const styles = {
   left : '40%'
 };
+
+function logOut(){
+  localStorage.removeItem('userName');
+  window.location.reload();
+}
 
 async function getUser() {
   return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
@@ -88,6 +94,10 @@ useEffect(() => {
                   <img src={logo} alt="" />
               </div>
           </Link>
+          <div className="userInfo">
+            <div>{localStorage.getItem("userName")}</div>
+            <div className="logout" onClick={logOut}>logout</div>
+          </div>
         </div>
         <nav className={"nav-menu active" }>
           <ul className="nav-menu-items" >

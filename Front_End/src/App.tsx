@@ -21,7 +21,7 @@ function App() {
  
 
    
- const [user ] = useState("localStorage.getItem('userName')");
+ const [user ] = useState(localStorage.getItem('userName'));
  
  console.log(user);
 
