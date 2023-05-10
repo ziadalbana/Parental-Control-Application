@@ -20,9 +20,9 @@ import Words from "../src/Pages/Words";
 function App() {
  
 
- console.log('Rendering App component');
-
+   
  const [user ] = useState(localStorage.getItem('userName'));
+ 
  console.log(user);
 
  

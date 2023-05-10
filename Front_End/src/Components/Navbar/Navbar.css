@@ -10,6 +10,25 @@
     align-items: center;
     z-index: 100;
     width: 100%;
+    display: flex;
+    justify-content: space-between;
+    color: #f5f5f5  ;
+  }
+
+  .userInfo{
+    display: flex;
+    justify-content: space-between;
+    margin-right: 20px;
+    margin-top: -20px;
+    font-size: 25px;
+  }
+
+  .userInfo div {
+    padding: 10px 15px;
+  }
+
+  .logout{
+    cursor: pointer;
   }
   
   .menu-bars {

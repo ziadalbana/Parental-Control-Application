@@ -19,7 +19,7 @@ import { SidebarData } from "./SlidebarData";
 import "./Navbar.css";
 import { Toggle } from "./Toggle";
 import ModalComponent from "../Modal/Modal";
-
+import { ClipLoader } from "react-spinners";
 
 export default function Navbar() {
 
@@ -30,6 +30,16 @@ const [adultTweets , setAdultTweets ] = useState(false);
 const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
+const [loading, setLoading] = useState(true);
+
+const styles = {
+  left : '40%'
+};
+
+function logOut(){
+  localStorage.removeItem('userName');
+  window.location.reload();
+}
 
 async function getUser() {
   return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
@@ -43,8 +53,11 @@ useEffect(() => {
     setAdultImage(token.removeAdultImages);
     setAdultTweets(token.removeAdultTweets);
     setSafeSearch(token.enforceSafeSearch);
+    setLoading(false);
   });
-}, []);
+
+
+}, [safeSearch , adultImage , adultTweets]);
     const openModal = () => {
       setModalIsOpen(true);
     };
@@ -83,6 +96,10 @@ useEffect(() => {
                   <img src={logo} alt="" />
               </div>
           </Link>
+          <div className="userInfo">
+            <div>{localStorage.getItem("userName")}</div>
+            <div className="logout" onClick={logOut}>logout</div>
+          </div>
         </div>
         <nav className={"nav-menu active" }>
           <ul className="nav-menu-items" >
@@ -94,11 +111,19 @@ useEffect(() => {
                     <span>{item.title}</span>
                   </Link>
                 </li>
-
-                
-                
               );
             })}
+              
+               {
+                loading ? 
+                  <div className="spinner-container" style={styles} >
+                    <ClipLoader color="#FFF" loading={true} size={30} />
+                  </div>
+
+                  :
+
+                  <div>
+                    
 
                 <li key='adultTweets' className='nav-text'>
                     <Link>
@@ -130,6 +155,9 @@ useEffect(() => {
                         />
                     </Link>
                 </li>
+                  </div>
+               }
+               
                 
 
           </ul>
