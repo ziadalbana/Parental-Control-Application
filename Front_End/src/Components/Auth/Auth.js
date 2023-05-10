@@ -13,6 +13,8 @@ export default function Auth () {
   let [errorSignUp, setErrorSignUp] = useState(false);
   let [EmptySignUp, setEmptySignUp] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  
+
 
   const [user] = useState({
     userName: '',
@@ -31,6 +33,14 @@ export default function Auth () {
       body: JSON.stringify(user)
     })
       .then(data => data.json())
+   }
+
+   async function saveUserName(username){
+    const chrome = window.chrome;
+    chrome.runtime.sendMessage({ type: "SAVE_USERNAME", data: { username } }, (response) => {
+
+      console.log("Response from background script:", response);
+      });
    }
 
    async function signUp() {
@@ -65,9 +75,10 @@ export default function Auth () {
     else
     {
       token = await signUp();
-      const resp_status = token.result === 'True';
+      const resp_status =  token.result === 'True';
       if (resp_status) {
         localStorage.setItem('userName', newUser.userName);
+        await saveUserName(newUser.userName);
         window.location.reload();
       }
 
@@ -91,10 +102,11 @@ export default function Auth () {
     else 
     {
       token = await loginUser();
-      const resp_status = token.result === 'True';
+      const resp_status =  token.result === 'True';
       console.log(resp_status);
       if (resp_status) {
         localStorage.setItem('userName', user.userName);
+        await saveUserName( user.userName);
         window.location.reload();
       }
 
