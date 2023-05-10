@@ -99,7 +99,8 @@ DATABASES = {
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'User\auth.JWTAuthentication',
+        'User.auth.JWTAuthentication',
+
     ],
 }
 

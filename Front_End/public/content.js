@@ -1,12 +1,13 @@
 // Define an array of keywords to filter
-const adultKeywords = [];
-const adultLinks = [] ;
-const removeAdultTweets = false ;
-const removeAdultImages = false ;
-const enforceSafeSearch = false ;
-
+let adultKeywords = [];
+let adultLinks = [] ;
+let removeAdultTweets = false ;
+let removeAdultImages = false ;
+let enforceSafeSearch = false ;
 async function getUser() {
-  return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
+  const username ='ziadA';
+  console.log(username);
+  return fetch(`http://localhost:8000/user/getuser/`+username, {
   method: 'GET',
   })
   .then(data => data.json())
@@ -23,6 +24,7 @@ async function checkAdult(tweet) {
  }
 
  getUser().then((token) => {
+  console.log(token);
   adultKeywords = [...token.blockedKeyWords] ;
   adultLinks = [...token.blockedLinks];
   removeAdultTweets = token.removeAdultTweets ;
@@ -38,19 +40,21 @@ async function checkAdult(tweet) {
 
 
 // block adult links
-chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-  var tabUrl = tabs[0].url;
-  if (adultLinks.some(word => tabUrl.includes(word))) {
-    var tabId = tabs[0].id;
-    chrome.tabs.update(tabId, { url: chrome.extension.getURL("blockedPage.html") });
-  }
-});
+  
+// chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+//   console.log(tabs[0].url);
+//   var tabUrl = tabs[0].url;
+//   if (adultLinks.some(word => tabUrl.includes(word))) {
+//     var tabId = tabs[0].id;
+//     chrome.tabs.update(tabId, { url: chrome.extension.getURL("blockedPage.html") });
+//   }
+// });
 
 //enforce safe search
-if(enforceSafeSearch)
-{
-
-}
+// if(enforceSafeSearch)
+// {
+//   chrome.storage.sync.set({ isSafeSearchEnabled: !isSafeSearchEnabled });
+// }
 //remove adult images
 if(removeAdultImages)
 {

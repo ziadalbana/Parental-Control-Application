@@ -13,7 +13,7 @@ from .preprocessing import *
 import jwt
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
-
+from .auth import JWTAuthentication
 
 # Create your views here.
 class SignUp(APIView):
@@ -54,12 +54,12 @@ class SignIn(APIView):
 
         payload = {'username': username}
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-        return JsonResponse({'token': token.decode()})
+        return JsonResponse({'token': token})
 
 
 class UserDetails(APIView):
-    @api_view(['GET'])
-    @permission_classes([IsAuthenticated])
+    @authentication_classes(JWTAuthentication)
+    @permission_classes(IsAuthenticated)
     def get(self, request, username):
         user = User.objects.filter(userName=username).first()
         if not user:
@@ -70,7 +70,6 @@ class UserDetails(APIView):
 
 
 class EnforceSafeSearch(APIView):
-    @api_view(['PUT'])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -88,7 +87,6 @@ class EnforceSafeSearch(APIView):
 
 
 class RemoveAdultTweets(APIView):
-    @api_view(['PUT'])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -106,7 +104,6 @@ class RemoveAdultTweets(APIView):
 
 
 class RemoveAdultImages(APIView):
-    @api_view(['PUT'])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -125,7 +122,6 @@ class RemoveAdultImages(APIView):
 
 
 class BlockedLinks(APIView):
-    @api_view(['PUT'])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -142,7 +138,6 @@ class BlockedLinks(APIView):
 
 
 class BlockedKeyWords(APIView):
-    @api_view(['PUT'])
     @permission_classes([IsAuthenticated])
     def patch(self, request, username):
         user = User.objects.filter(userName=username).first()
@@ -196,7 +191,6 @@ class model_predict(APIView):
     #     # Print the predicted probabilities for each class
     #     y_pred = np.argmax(all_preds, axis=1)
     #     return Response(y_pred[0])
-    @api_view(['POST'])
     @permission_classes([IsAuthenticated])
     def post(self, request):
         model = settings.GLOBAL_MODEL
