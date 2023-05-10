@@ -12,7 +12,6 @@ from django.conf import settings
 from .preprocessing import *
 import jwt
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.permissions import IsAuthenticated
 from .auth import JWTAuthentication
 
 # Create your views here.
@@ -32,7 +31,7 @@ class SignUp(APIView):
             serializer.save()
             payload = {'username': username}
             token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-            return JsonResponse({'token': token.decode()})
+            return JsonResponse({'token': token})
         return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
 
@@ -58,9 +57,13 @@ class SignIn(APIView):
 
 
 class UserDetails(APIView):
-    @authentication_classes(JWTAuthentication)
-    @permission_classes(IsAuthenticated)
     def get(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
+
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -70,8 +73,13 @@ class UserDetails(APIView):
 
 
 class EnforceSafeSearch(APIView):
-    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
+        
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -87,8 +95,12 @@ class EnforceSafeSearch(APIView):
 
 
 class RemoveAdultTweets(APIView):
-    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -104,8 +116,12 @@ class RemoveAdultTweets(APIView):
 
 
 class RemoveAdultImages(APIView):
-    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -122,8 +138,12 @@ class RemoveAdultImages(APIView):
 
 
 class BlockedLinks(APIView):
-    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -138,8 +158,12 @@ class BlockedLinks(APIView):
 
 
 class BlockedKeyWords(APIView):
-    @permission_classes([IsAuthenticated])
     def patch(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
@@ -191,8 +215,12 @@ class model_predict(APIView):
     #     # Print the predicted probabilities for each class
     #     y_pred = np.argmax(all_preds, axis=1)
     #     return Response(y_pred[0])
-    @permission_classes([IsAuthenticated])
     def post(self, request):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
         model = settings.GLOBAL_MODEL
         tokenizer = settings.GLOBAL_TOKENIZER
         tweet = request.data.get('tweet')
