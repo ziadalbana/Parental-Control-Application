@@ -1,5 +1,4 @@
 
-
 let adultKeywords = [];
 let adultLinks = [];
 let removeAdultTweets = false;
@@ -7,10 +6,14 @@ let removeAdultImages = false;
 let enforceSafeSearch = false;
 
 let username ;
+let token ;
 
-async function getUser(username) {
+async function getUser(username , token) {
   return fetch(`http://localhost:8000/user/getuser/${username}`, {
   method: 'GET',
+  headers: {
+    Authorization : `Bearer ${token}`,
+  }
   })
   .then(data => data.json())
 }
@@ -26,12 +29,24 @@ async function checkAdult(tweet) {
     .then(data => data.json())
  }
 
-chrome.storage.local.get(['userName'], function(result) {
-  username = result.userName;
-  alert(`userName retrieved successfully: ${username}`)
-  if(username)
+
+ async function main() {
+
+
+  const { userName, Token } = await new Promise(resolve => {
+    chrome.storage.local.get(['userName', 'token'], function(result) {
+      resolve(result);
+    });
+  });
+
+
+  username = userName ;
+  token = Token ;
+
+
+if(username && token)
   {
-    getUser().then((token) => {
+    getUser(username , auth).then((token) => {
       // Update the values of the variables from the token object
       adultKeywords = token.adultKeywords || [];
       adultLinks = token.adultLinks || [];
@@ -42,12 +57,11 @@ chrome.storage.local.get(['userName'], function(result) {
       console.log('Variables updated successfully from token:', adultKeywords, adultLinks, removeAdultTweets, removeAdultImages, enforceSafeSearch);
     
     });
-  }else 
-    return ;
-});
+  }
 
  
  if(username){
+  alert("you get username first")
    //enforce safe search
    if(enforceSafeSearch)
    {
@@ -101,9 +115,11 @@ const observer = new MutationObserver(mutationsList => {
   }
 });
 
-// Start observing changes to the DOM
 observer.observe(document.body, { childList: true, subtree: true });
 }else 
 {
   alert("Kidefender doesn't work, Please Sign in again");
 }
+ }
+
+ main();

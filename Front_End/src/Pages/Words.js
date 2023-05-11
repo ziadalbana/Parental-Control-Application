@@ -22,6 +22,9 @@ export default function Words() {
     async function getUser() {
       return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {
       method: 'GET',
+      headers: {
+        Authorization : `Bearer ${localStorage.getItem('token')}`,
+      }
       })
       .then(data => data.json())
     }

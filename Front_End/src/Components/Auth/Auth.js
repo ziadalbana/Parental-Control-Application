@@ -43,6 +43,14 @@ export default function Auth () {
       });
    }
 
+   async function saveToken(token){
+    const chrome = window.chrome;
+    chrome.runtime.sendMessage({ type: "SAVE_TOKEN", data: { token } }, (response) => {
+
+      console.log("Response from background script:", response);
+      });
+   }
+
    async function signUp() {
     return fetch('http://localhost:8000/user/signup', {
       method: 'POST',
@@ -74,12 +82,14 @@ export default function Auth () {
       setEmptySignUp(true);
     else
     {
-      token = await signUp();
-      const resp_status =  token.result === 'True';
+      //token = await signUp();
+      const resp_status =  true;
       if (resp_status) {
         localStorage.setItem('userName', newUser.userName);
+        localStorage.setItem('token' , 'token.token')
         await saveUserName(newUser.userName);
-        window.location.reload();
+        await saveToken('token.token');
+        //window.location.reload();
       }
 
       setErrorSignUp(!resp_status);
@@ -106,7 +116,9 @@ export default function Auth () {
       console.log(resp_status);
       if (resp_status) {
         localStorage.setItem('userName', user.userName);
+        localStorage.setItem('token' , token.token);
         await saveUserName( user.userName);
+        await saveToken(token.token);
         window.location.reload();
       }
 

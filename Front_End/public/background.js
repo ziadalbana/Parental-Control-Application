@@ -13,7 +13,6 @@ chrome.action.onClicked.addListener(function() {
   chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "SAVE_USERNAME") {
       const { username } = message.data;
-      // Save your data to local storage
       chrome.storage.local.set({ userName: username }, function() {
         console.log('Data saved successfully!');
       });
@@ -21,6 +20,17 @@ chrome.action.onClicked.addListener(function() {
       console.log("Received username:", username);
       chrome.storage.local.get(['userName'], function(result) {
         console.log('Data retrieved successfully!', result.userName);
+      });
+      sendResponse({ status: "OK" }); // Send a response back to the sender
+    }else if(message.type === "SAVE_TOKEN") {
+      const { token } = message.data;
+      chrome.storage.local.set({ token: token }, function() {
+        console.log('Data saved successfully!');
+      });
+
+      console.log("Received token:", token);
+      chrome.storage.local.get(['token'], function(result) {
+        console.log('Data retrieved successfully!', result.token);
       });
       sendResponse({ status: "OK" }); // Send a response back to the sender
     }
