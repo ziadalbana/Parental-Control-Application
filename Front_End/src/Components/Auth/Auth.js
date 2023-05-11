@@ -82,14 +82,14 @@ export default function Auth () {
       setEmptySignUp(true);
     else
     {
-      //token = await signUp();
-      const resp_status =  true;
+      token = await signUp();
+      const resp_status =  token.result === 'True';
       if (resp_status) {
         localStorage.setItem('userName', newUser.userName);
         localStorage.setItem('token' , 'token.token')
         await saveUserName(newUser.userName);
         await saveToken('token.token');
-        //window.location.reload();
+        window.location.reload();
       }
 
       setErrorSignUp(!resp_status);
