@@ -53,7 +53,7 @@ class SignIn(APIView):
 
         payload = {'username': username}
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-        return JsonResponse({'token': token})
+        return JsonResponse({'result': 'True','token':token})
 
 
 class UserDetails(APIView):

@@ -17,6 +17,9 @@ export default function ModalComponent(props) {
         async function checkUser() {
             return fetch('http://localhost:8000/user/signin', {
             method: 'POST',
+            headers: {
+              Authorization : `Bearer ${localStorage.getItem('token')}`,
+            },
             body: JSON.stringify(inputUser)
             })
             .then(data => data.json())
@@ -24,7 +27,7 @@ export default function ModalComponent(props) {
        async function saveWords(words) {
         return fetch(`http://localhost:8000/user/blockedkeywords/${inputUser.userName}`, {
         method: 'PATCH',
-        headers: {'Content-Type': 'application/json'},
+        headers: {'Content-Type': 'application/json', Authorization : `Bearer ${localStorage.getItem('token')}`},
         body: JSON.stringify({
             blockedKeyWords : words 
         })
@@ -34,7 +37,7 @@ export default function ModalComponent(props) {
         async function saveSites(sites) {
             return fetch(`http://localhost:8000/user/blockedlinkes/${inputUser.userName}`, {
             method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', Authorization : `Bearer ${localStorage.getItem('token')}`},
             body: JSON.stringify({
                 blockedLinks : sites 
             })
@@ -44,7 +47,7 @@ export default function ModalComponent(props) {
         async function triggerAdultTweets(adult) {
             return fetch(`http://localhost:8000/user/removetweets/${inputUser.userName}`, {
             method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', Authorization : `Bearer ${localStorage.getItem('token')}`,},
             body: JSON.stringify({
                 removeAdultTweets : adult 
             })
@@ -54,7 +57,7 @@ export default function ModalComponent(props) {
         async function triggerAdultImages(adult) {
             return fetch(`http://localhost:8000/user/removeimages/${inputUser.userName}`, {
             method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', Authorization : `Bearer ${localStorage.getItem('token')}`},
             body: JSON.stringify({
                 removeAdultImages : adult 
             })
@@ -64,7 +67,7 @@ export default function ModalComponent(props) {
         async function triggerSafeSearch(adult) {
             return fetch(`http://localhost:8000/user/enforcesafesearch/${inputUser.userName}`, {
             method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', Authorization : `Bearer ${localStorage.getItem('token')}`,},
             body: JSON.stringify({
                 enforceSafeSearch : adult 
             })
