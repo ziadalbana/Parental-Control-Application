@@ -6,7 +6,7 @@ let removeAdultImages = false;
 let enforceSafeSearch = false;
 
 let username ;
-let token ;
+let auth ;
 
 async function getUser(username , token) {
   return fetch(`http://localhost:8000/user/getuser/${username}`, {
@@ -18,10 +18,11 @@ async function getUser(username , token) {
   .then(data => data.json())
 }
 
-async function checkAdult(tweet) {
+async function checkAdult(tweet , token) {
   return fetch('http://localhost:8000/user/checkadult', {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+       Authorization : `Bearer ${token}`,
     },
     method: 'POST',
     body: JSON.stringify(tweet)
@@ -41,10 +42,10 @@ async function checkAdult(tweet) {
 
 
   username = userName ;
-  token = Token ;
+  auth = Token ;
 
 
-if(username && token)
+if(username && auth)
   {
     getUser(username , auth).then((token) => {
       // Update the values of the variables from the token object
@@ -101,7 +102,7 @@ const observer = new MutationObserver(mutationsList => {
               }
               //remove adult tweets using the model
               else if(removeAdultTweets) {
-                checkAdult(text).then((token) => {
+                checkAdult(text,auth).then((token) => {
                   if(token.predicted_class===0) tweet.remove();
                 });
 
