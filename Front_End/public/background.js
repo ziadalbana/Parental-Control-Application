@@ -1,9 +1,13 @@
-function getUserName(){
-  chrome.storage.local.get(['userName'], function(result) {
-    console.log('Data retrieved successfully!', result.userName);
-  });
- }
 
+async function getUser(username , token) {
+  return fetch(`http://localhost:8000/user/getuser/${username}`, {
+  method: 'GET',
+  headers: {
+    Authorization : `Bearer ${token}`,
+  }
+  })
+  .then(data => data.json())
+}
 
 chrome.action.onClicked.addListener(function() {
     chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
@@ -35,15 +39,31 @@ chrome.action.onClicked.addListener(function() {
       sendResponse({ status: "OK" }); // Send a response back to the sender
     }
   });
-const adultLinks = ["youtube.com/"];
 chrome.action.onClicked.addListener(function () {
   chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
 });
-
-chrome.webNavigation.onBeforeNavigate.addListener((details) => {
-  const blockedKeywords = ["https://www.youtube.com/", "facebook"];
+chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
+  let adultKeywords ; 
+  let adultLinks ;
+  let username ;
+  let auth 
+  console.log("onBeforeNavigate");;
+  await new Promise((resolve, reject) => {
+    chrome.storage.local.get(['userName', 'token'], (result) => {
+      username = result.userName ;
+      auth = result.token ;
+      console.log("values1",username , auth);
+      resolve();
+    });
+  });
+  console.log("values2",username , auth);
+  const token = await getUser(username , auth);
+  console.log("token",token);
+  adultKeywords = token.blockedKeyWords || [];
+  adultLinks = token.blockedLinks || [];  
   const url = details.url.toLowerCase();
-
+  const blockedKeywords = adultKeywords.concat(adultLinks);
+  console.log("blockedKeywords", blockedKeywords);
   for (let i = 0; i < blockedKeywords.length; i++) {
     if (url.includes(blockedKeywords[i])) {
       chrome.tabs.update(details.tabId, {url: chrome.runtime.getURL("blockedPage.html")});
@@ -51,4 +71,5 @@ chrome.webNavigation.onBeforeNavigate.addListener((details) => {
     }
   }
 }, {url: [{urlMatches: ".*"}]});
+
 

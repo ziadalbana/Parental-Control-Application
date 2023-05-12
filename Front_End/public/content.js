@@ -34,7 +34,7 @@ async function checkAdult(tweet , token) {
  async function main() {
 
 
-  const { userName, Token } = await new Promise(resolve => {
+  const { userName, token } = await new Promise(resolve => {
     chrome.storage.local.get(['userName', 'token'], function(result) {
       resolve(result);
     });
@@ -42,8 +42,7 @@ async function checkAdult(tweet , token) {
 
 
   username = userName ;
-  auth = Token ;
-
+  auth = token ;
 
 if(username && auth)
   {
@@ -86,11 +85,10 @@ const observer = new MutationObserver(mutationsList => {
           if(!tweet.hasAttribute('isFiltered'))
           {
             tweet.setAttribute('isFiltered' , 'true');
-            tweet.style.display = 'none';
             const tweetTextElement = tweet.querySelector('[data-testid="tweet"] [lang]');
             if (tweetTextElement !== null) {
               const tweetText = tweetTextElement.textContent;
-              console.log(tweetText);
+              // console.log(tweetText);
               // filter and remove tweets as needed
               const text={
                 tweet:tweetText
@@ -102,12 +100,13 @@ const observer = new MutationObserver(mutationsList => {
               }
               //remove adult tweets using the model
               else if(removeAdultTweets) {
+                tweet.style.display = 'none';
                 checkAdult(text,auth).then((token) => {
+                  console.log(token.predicted_class);
                   if(token.predicted_class===0) tweet.remove();
+                  else tweet.style.display = 'block';
                 });
-
               }
-              tweet.style.display = 'none';
             }
           }
       }
