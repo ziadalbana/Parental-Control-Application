@@ -100,12 +100,16 @@ const observer = new MutationObserver(mutationsList => {
               }
               else if (removeAdultImages) {
                 console.log("classifing images");
-                const tweetImageElement = tweet.querySelector('[data-testid="tweet"] [data-testid="tweetPhoto"] img');
+                const tweetImageElement = tweet.querySelector('img[alt="Image"]');
+                console.log(tweetImageElement);
                 if (tweetImageElement !== null) {
                   const imageUrl = tweetImageElement.getAttribute('src');
+                  console.log("imageUrl");
+                  console.log(imageUrl);
                   // this example uses axios
                   const axios = require('axios');
 
+                  console.log("sending request");
                   axios.get('https://api.sightengine.com/1.0/check.json', {
                     params: {
                       'url': imageUrl,
