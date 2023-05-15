@@ -14,6 +14,7 @@ import jwt
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from .auth import JWTAuthentication
 
+
 # Create your views here.
 class SignUp(APIView):
     def post(self, request):
@@ -31,7 +32,7 @@ class SignUp(APIView):
             serializer.save()
             payload = {'username': username}
             token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-            return JsonResponse({'token': token})
+            return JsonResponse({'result': 'True', 'token': token})
         return Response({'result': 'False'}, status=status.HTTP_200_OK)
 
 
@@ -53,7 +54,7 @@ class SignIn(APIView):
 
         payload = {'username': username}
         token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
-        return JsonResponse({'result': 'True','token':token})
+        return JsonResponse({'result': 'True', 'token': token})
 
 
 class UserDetails(APIView):
@@ -79,7 +80,7 @@ class EnforceSafeSearch(APIView):
 
         if not isAuthenticated:
             return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
-        
+
         user = User.objects.filter(userName=username).first()
         if not user:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
