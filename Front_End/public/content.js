@@ -98,6 +98,44 @@ const observer = new MutationObserver(mutationsList => {
                 tweet.remove();
                 
               }
+              else if (removeAdultImages) {
+                console.log("classifing images");
+                const tweetImageElement = tweet.querySelector('[data-testid="tweet"] [data-testid="tweetPhoto"] img');
+                if (tweetImageElement !== null) {
+                  const imageUrl = tweetImageElement.getAttribute('src');
+                  // this example uses axios
+                  const axios = require('axios');
+
+                  axios.get('https://api.sightengine.com/1.0/check.json', {
+                    params: {
+                      'url': imageUrl,
+                      'models': 'nudity-2.0',
+                      'api_user': '836180598',
+                      'api_secret': 'VpjgcAYmfdErTw7FDQBZ',
+                    }
+                  })
+                  .then(function (response) {
+                    console.log('response of image classification')
+                    console.log(response.data);
+                    const res = response.data;
+                    let rate = 0;
+                    if(res.status === 'success'){
+                      rate += res.nudity.sexual_activity;
+                      rate += res.nudity.sexual_display;
+                      rate += res.nudity.erotica;
+                      if(rate > 0.5)
+                        tweet.remove();
+                    }
+                  })
+                  .catch(function (error) {
+                    // handle error
+                    if (error.response) console.log(error.response.data);
+                    else console.log(error.message);
+                  });
+                  console.log('Image URL:', imageUrl);
+                  // You can download the image or perform any other operation with it
+                }
+              }
               //remove adult tweets using the model
               else if(removeAdultTweets) {
                 tweet.style.display = 'none';
