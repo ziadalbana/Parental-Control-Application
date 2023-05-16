@@ -72,4 +72,13 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
   }
 }, {url: [{urlMatches: ".*"}]});
 
+chrome.webNavigation.onBeforeNavigate.addListener((details) => {
+  console.log(details.url);
+  const googleSearchURLPattern = "https://www.google.com/search*";
+  const safeSearchParam = "&safe=active";
+  if (details.url.match(googleSearchURLPattern) && !details.url.includes(safeSearchParam)) {
+    const modifiedURL = details.url + safeSearchParam;
+    chrome.tabs.update(details.tabId, { url: modifiedURL });
+  }
+});
 
