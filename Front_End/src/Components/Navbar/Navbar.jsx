@@ -148,7 +148,7 @@ useEffect(() => {
                         />
                     </Link>
                 </li>
-                <li key='search' className='nav-text'>
+                {/* <li key='search' className='nav-text'>
                     <Link>
                          <FaSearch />
                         <span>Enforce Safe Search</span>
@@ -157,7 +157,7 @@ useEffect(() => {
                             onClick={ToggleSafeSearch}
                         />
                     </Link>
-                </li>
+                </li> */}
                   </div>
                }
                

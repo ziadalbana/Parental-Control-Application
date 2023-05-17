@@ -99,55 +99,71 @@ const observer = new MutationObserver(mutationsList => {
                 
               }
               else if (removeAdultImages) {
-                console.log("classifing images");
-                const tweetImageElement = tweet.querySelector('img[alt="Image"]');
-                console.log(tweetImageElement);
-                if (tweetImageElement !== null) {
-                  const imageUrl = tweetImageElement.getAttribute('src');
-                  console.log("imageUrl");
-                  console.log(imageUrl);
-                  // this example uses axios
-                  const axios = require('axios');
+                // console.log("classifing images");
+                // const tweetImageElement = tweet.querySelector('img[alt="Image"]');
+                // console.log(tweetImageElement);
+                // if (tweetImageElement !== null) {
+                //   const imageUrl = tweetImageElement.getAttribute('src');
+                //   console.log("imageUrl");
+                //   console.log(imageUrl);
+                //   // this example uses axios
+                //   const axios = require('axios');
 
-                  console.log("sending request");
-                  axios.get('https://api.sightengine.com/1.0/check.json', {
-                    params: {
-                      'url': imageUrl,
-                      'models': 'nudity-2.0',
-                      'api_user': '836180598',
-                      'api_secret': 'VpjgcAYmfdErTw7FDQBZ',
-                    }
-                  })
-                  .then(function (response) {
-                    console.log('response of image classification')
-                    console.log(response.data);
-                    const res = response.data;
-                    let rate = 0;
-                    if(res.status === 'success'){
-                      rate += res.nudity.sexual_activity;
-                      rate += res.nudity.sexual_display;
-                      rate += res.nudity.erotica;
-                      if(rate > 0.5)
-                        tweet.remove();
-                    }
-                  })
-                  .catch(function (error) {
-                    // handle error
-                    if (error.response) console.log(error.response.data);
-                    else console.log(error.message);
-                  });
-                  console.log('Image URL:', imageUrl);
-                  // You can download the image or perform any other operation with it
-                }
+                //   console.log("sending request");
+                //   axios.get('https://api.sightengine.com/1.0/check.json', {
+                //     params: {
+                //       'url': imageUrl,
+                //       'models': 'nudity-2.0',
+                //       'api_user': '836180598',
+                //       'api_secret': 'VpjgcAYmfdErTw7FDQBZ',
+                //     }
+                //   })
+                //   .then(function (response) {
+                //     console.log('response of image classification')
+                //     console.log(response.data);
+                //     const res = response.data;
+                //     let rate = 0;
+                //     if(res.status === 'success'){
+                //       rate += res.nudity.sexual_activity;
+                //       rate += res.nudity.sexual_display;
+                //       rate += res.nudity.erotica;
+                //       if(rate > 0.5)
+                //         tweet.remove();
+                //     }
+                //   })
+                //   .catch(function (error) {
+                //     // handle error
+                //     if (error.response) console.log(error.response.data);
+                //     else console.log(error.message);
+                //   });
+                //   console.log('Image URL:', imageUrl);
+                //   // You can download the image or perform any other operation with it
+                // }
               }
               //remove adult tweets using the model
               else if(removeAdultTweets) {
-                tweet.style.display = 'none';
-                checkAdult(text,auth).then((token) => {
-                  console.log(token.predicted_class);
-                  if(token.predicted_class===0) tweet.remove();
-                  else tweet.style.display = 'block';
+                // tweet.style.display = 'none';
+                // checkAdult(text,auth).then((token) => {
+                //   console.log(token.predicted_class);
+                //   if(token.predicted_class===0) tweet.remove();
+                //   else tweet.style.display = 'block';
+                // });
+                const modelPredictionPromise = new Promise((resolve, reject) => {
+                  tweet.style.display = 'none';
+                  checkAdult(text, auth).then((token) => {
+                    if (token.predicted_class === 0) {
+                      tweet.remove();
+                      reject();
+                    } else {
+                      resolve();
+                    }
+                  });
                 });
+  
+                // Show the tweet after model prediction response is received
+                modelPredictionPromise.then(() => {
+                  tweet.style.display = 'block';
+                }).catch(() => {});
               }
             }
           }
