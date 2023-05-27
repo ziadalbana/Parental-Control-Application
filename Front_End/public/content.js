@@ -112,17 +112,54 @@ const observer = new MutationObserver(mutationsList => {
                   tweet.style.display = 'block';
                 }).catch(() => {});
               }
+              
             }
-            // const tweetImageElement = tweet.querySelectorAll('[data-testid="tweetPhoto"], [data-testid="tweetPhotoInlineMedia"], [data-testid="mediaPreviewImage"]');
-            // console.log(tweetImageElement);
-            //   for (const tweetPhoto of tweetImageElement) {
-            //     const imageElement = tweetPhoto.querySelector('Image');
-            //     console.log(imageElement);
-            //     if (imageElement && imageElement.getAttribute('src')) {
-            //       const imageUrl = imageElement.getAttribute('src');
-            //       console.log(imageUrl);
-            //     }
-            //   }
+
+            else if (removeAdultImages) {
+              const tweetImageElement = tweet.querySelectorAll('[data-testid="tweetPhoto"], [data-testid="tweetPhotoInlineMedia"], [data-testid="mediaPreviewImage"]');
+              console.log(tweetImageElement);
+              for (const tweetPhoto of tweetImageElement) {
+                const imageElement = tweetPhoto.querySelector('img[alt="Image"]');
+                console.log(imageElement);
+                if (imageElement && imageElement.getAttribute('src')) {
+                //if (true) {
+                  const imageUrl = imageElement.getAttribute('src');
+                  //const imageUrl = "";
+                  console.log(imageUrl);
+                  console.log("classifing images");
+
+                  console.log("sending request");
+                  fetch('https://api.sightengine.com/1.0/check.json?url=' + encodeURIComponent(imageUrl) +
+                      '&models=nudity-2.0&api_user=836180598&api_secret=VpjgcAYmfdErTw7FDQBZ')
+                  .then(response => response.json())
+                  .then(data => {
+                    console.log('response of image classification');
+                    console.log(data);
+                    const res = data;
+                    let rate = 0;
+                    if (res.status === 'success') {
+                      rate += res.nudity.sexual_activity;
+                      rate += res.nudity.sexual_display;
+                      rate += res.nudity.erotica;
+                      if (rate > 0.5) {
+                        console.log('image is adult');
+                        tweet.remove();
+                      } else {
+                        console.log('image is not adult');
+                      }
+                    }
+                  })
+                  .catch(error => {
+                    // handle error
+                    console.error(error);
+                  });
+
+
+
+                }
+              }
+            }
+            
           }
       }
 
