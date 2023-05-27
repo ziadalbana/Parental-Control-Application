@@ -86,9 +86,9 @@ export default function Auth () {
       const resp_status =  token.result === 'True';
       if (resp_status) {
         localStorage.setItem('userName', newUser.userName);
-        localStorage.setItem('token' , 'token.token')
+        localStorage.setItem('token' , token.token)
         await saveUserName(newUser.userName);
-        await saveToken('token.token');
+        await saveToken(token.token);
         window.location.reload();
       }
 

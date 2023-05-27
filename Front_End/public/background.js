@@ -39,9 +39,6 @@ chrome.action.onClicked.addListener(function() {
       sendResponse({ status: "OK" }); // Send a response back to the sender
     }
   });
-chrome.action.onClicked.addListener(function () {
-  chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
-});
 chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
   let adultKeywords ; 
   let adultLinks ;
