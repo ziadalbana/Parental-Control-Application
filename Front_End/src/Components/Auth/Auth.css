@@ -39,3 +39,6 @@
     font-size: 14px;
   }
   
+  span{
+    cursor: pointer;
+  }
