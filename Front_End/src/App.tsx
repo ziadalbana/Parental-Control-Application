@@ -30,7 +30,7 @@ function App() {
     <div>
 
       {
-        true?
+        user?
         
           <BrowserRouter>
             <Navbar />
