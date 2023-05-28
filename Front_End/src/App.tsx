@@ -30,12 +30,12 @@ function App() {
     <div>
 
       {
-        user?
+        true?
         
           <BrowserRouter>
             <Navbar />
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/index.html" element={<Home />} />
               <Route path="/sites" element={<Sites />} />
               <Route path="/words" element={<Words />} />
             </Routes>

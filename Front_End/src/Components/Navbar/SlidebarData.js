@@ -7,7 +7,7 @@ import { FaFont } from 'react-icons/fa';
 export const SidebarData = [
   {
     title: "Home",
-    path: "/",
+    path: "/index.html",
     icon: <AiIcons.AiFillHome />,
     cName: "nav-text"
   },
