@@ -78,7 +78,7 @@ export default function ModalComponent(props) {
      function close(){
         props.closeModal();
         if(props.type === 'adultImages' || props.type === 'safeSearch' || props.type === 'AdultTweets')
-            window.location.reload();
+          window.location.href = 'index.html';
      }
         
         
@@ -118,15 +118,15 @@ export default function ModalComponent(props) {
             }else if(props.type === "adultImages")
             {
                 await triggerAdultImages(props.data);
-                window.location.reload();
+                window.location.href = 'index.html';
             }else if(props.type === "safeSearch")
             {
                 await triggerSafeSearch(props.data);
-                window.location.reload();
+                window.location.href = 'index.html';
             }else if(props.type === "AdultTweets")
             {
                 await triggerAdultTweets(props.data);
-                window.location.reload();
+                window.location.href = 'index.html';
             }
             props.closeModal();
           }

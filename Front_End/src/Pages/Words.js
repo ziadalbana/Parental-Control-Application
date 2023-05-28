@@ -30,7 +30,7 @@ export default function Words() {
     }
 
   function cancel (){
-    window.location.reload();
+    window.location.href = '/words';
   }
     useEffect(() => {
       getUser().then((token) => {
