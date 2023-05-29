@@ -22,7 +22,7 @@ export default function Sites() {
       setModalIsOpen(false);
     };
     function cancel (){
-      window.location.href = '/sites';
+      window.location.href = '/index.html';
     }
     async function getUser() {
       return fetch(`http://localhost:8000/user/getuser/${localStorage.getItem('userName')}`, {

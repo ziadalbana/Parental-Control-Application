@@ -101,7 +101,7 @@ useEffect(() => {
           </Link>
           <div className="userInfo">
             <div>{localStorage.getItem("userName")}</div>
-            <div className="logout" onClick={logOut}>logout</div>
+            <div className="logout" onClick={openModal}>logout</div>
           </div>
         </div>
         <nav className={"nav-menu active" }>
@@ -164,7 +164,9 @@ useEffect(() => {
                 
 
           </ul>
+         
           <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type={type} data = {data} />
+          <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="logout" logout = {logOut} />
         </nav>
       </IconContext.Provider>
     </>
