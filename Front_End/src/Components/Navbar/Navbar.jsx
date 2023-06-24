@@ -31,6 +31,7 @@ const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 const [loading, setLoading] = useState(true);
+const [lang] = useState("ar");
 
 const styles = {
   left : '40%'
@@ -52,12 +53,16 @@ async function getUser() {
 }
 
 useEffect(() => {
-  getUser().then((token) => {
-    setAdultImage(token.removeAdultImages);
-    setAdultTweets(token.removeAdultTweets);
-    setSafeSearch(token.enforceSafeSearch);
+  // getUser().then((token) => {
+  //   setAdultImage(token.removeAdultImages);
+  //   setAdultTweets(token.removeAdultTweets);
+  //   setSafeSearch(token.enforceSafeSearch);
+  //   setLoading(false);
+  // });
+     setAdultImage(true);
+    setAdultTweets(false);
+    setSafeSearch(true);
     setLoading(false);
-  });
 
 
 }, [safeSearch , adultImage , adultTweets]);
@@ -101,17 +106,17 @@ useEffect(() => {
           </Link>
           <div className="userInfo">
             <div>{localStorage.getItem("userName")}</div>
-            <div className="logout" onClick={openModal}>logout</div>
+            <div className="logout" onClick={openModal}> {lang === "en" ? "logout" : "تسجيل الخروج"}</div>
           </div>
         </div>
-        <nav className={"nav-menu active" }>
+        <nav className={`nav-menu active ${lang === 'en' ? "english" : "arabic"}`}>
           <ul className="nav-menu-items" >
             {SidebarData.map((item, index) => {
               return (
                 <li key={index} className={item.cName}>
                   <Link to={item.path}>
                     {item.icon}
-                    <span>{item.title}</span>
+                    <span>{lang === "en" ? item.title : item.titleAr}</span>
                   </Link>
                 </li>
               );
@@ -131,7 +136,10 @@ useEffect(() => {
                 <li key='adultTweets' className='nav-text'>
                     <Link>
                         <FaTwitter />
-                        <span>Block Adult Tweets</span>
+                        
+                        {lang == 'en' ? <span>Block Adult Tweets</span>: <span>حجب التويتات الغير مناسبة</span>}
+                        
+                        
                         <Toggle
                             toggled={adultTweets}
                             onClick={ToggleAdultTweets}
@@ -141,7 +149,8 @@ useEffect(() => {
                 <li key='images' className='nav-text'>
                     <Link>
                         <BsImages />
-                        <span>Block Adult Images</span>
+                        {lang == 'en' ? <span>Block Adult Images</span>: <span>حجب الصور الغير مناسبة</span>}
+                        
                         <Toggle
                             toggled={adultImage}
                             onClick={ToggleAdultImages}

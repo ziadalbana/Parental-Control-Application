@@ -1,6 +1,7 @@
 button {
     background-color: rgb(117, 111, 111);
-    
+    height: 27px;
+    width: 50px;
   }
   
   button:hover { background-color: rgb(117, 111, 111); }
@@ -11,11 +12,11 @@ button {
   .pin {
     background-color: white;
     border-radius: 98px;
-    height: 19px;
+    height: 25px;
     left: -15px;
     position: absolute;
     top: 1px;
-    width: 19px;
+    width: 25px;
     transition: left ease .5s;
   }
   
@@ -24,9 +25,7 @@ button {
     border: 0;
     border-radius: 50px;
     cursor: pointer;
-    height: 20px;
     position: relative;
-    width: 43px;
     margin-left: 10px;
   }
 
@@ -34,9 +33,7 @@ button {
     border: 0;
     border-radius: 50px;
     cursor: pointer;
-    height: 20px;
     position: relative;
-    width: 43px;
     margin-left: 10px;
 
   }
