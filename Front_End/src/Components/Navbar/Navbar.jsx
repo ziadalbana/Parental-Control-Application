@@ -30,7 +30,7 @@ const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 const [loading, setLoading] = useState(true);
-const [lang] = useState("en");
+const [lang] = useState("ar");
 
 const styles = {
   left : '40%'

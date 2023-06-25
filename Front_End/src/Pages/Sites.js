@@ -13,6 +13,7 @@ export default function Sites() {
   const inputRef = useRef(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [lang] = useState("ar")
 
     const openModal = () => {
       setModalIsOpen(true);
@@ -35,15 +36,16 @@ export default function Sites() {
     }
 
     useEffect(() => {
-      getUser().then((token) => {
-        setList(token.blockedLinks);
-        setLoading(false);
-      });
+      // getUser().then((token) => {
+      //   setList(token.blockedLinks);
+      //   setLoading(false);
+      // });
+      setLoading(false);
     }, []);
 
- 
 
-   
+
+
     const addNewWord = (e) => {
       e.preventDefault();
       const newWord = inputRef.current.value.trim();
@@ -59,48 +61,48 @@ export default function Sites() {
     const removePill = (e) => {
         setList(list.filter((item, x) => e !== x));
     }
-      
 
-    return loading ?  
+
+    return loading ?
     <div className="spinner-container">
       <ClipLoader color="#000" loading={true} size={50} />
     </div>
     :
         <div className="b-Container">
-           <div className="form-box">
-            <h2>Block Sites</h2>
+            <div  className={`form-box ${lang === 'en' ? "" : "rtlWord"}`}>
+            <h2>{lang === "en" ? "Block Sites" : "حجب المواقع"}</h2>
            <form className="search-container">
             <input
               className="b-TextInput--lg size-100"
-              placeholder={"Add a new Site..."}
-              ref={inputRef} 
+              placeholder={lang === "en" ? "Add a new Site..." : "اضافة موقع جديد"}
+              ref={inputRef}
               />
-            <button onClick={addNewWord} className="b-Button--primary">Add</button>
+            <button onClick={addNewWord} className="b-Button--primary">{lang === "en" ? "Add" : "اضافة"}</button>
           </form>
         <section>
           {list.length > 0
             ?
           <div role="button" className="pill pill-clear" onClick={clearAllPills}>
             <div className="pill-content">
-              <p className="padding-right">Clear All</p>
+            <p className="padding"> {lang === "en" ? "Clear All" : "مسح الكل"}</p>
             </div>
           </div>
             :
           null}
-          
+
           {list.map((query, index) => {
               return (
                 <div role="button" className="pill pill-query">
                   <div className="pill-content">
-                    <p className="padding-right">{query}</p>
+                    <p className={`${lang === 'en' ? "padding-right" : "padding-left"}`}>{query}</p>
                     <button
-                    className="pill-close"
+                    className={`pill-close ${lang === 'en' ? "padding-right" : "padding-left"}`}
                     onClick={() => removePill(index)}
                     tabIndex="0"
                     >
                     <FaTimes />
                   </button>
-                    
+
                   </div>
                 </div>
               )
@@ -108,11 +110,12 @@ export default function Sites() {
           }
           </section>
            </div>
-           <div className="buttonsContainer">
-              <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
-                <button type="button" className="btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
-           </div>
+           <div className={`${lang === 'en' ? "buttonsContainer" : "buttonsContainerAr"}`}>
+    
+              <button type="button" className="changes btn btn-outline-success saveSetting" onClick={openModal}>{lang === "en" ? "Save" : "حفظ"}</button>
+              <button type="button" className="changes btn btn-outline-danger cancelSetting" onClick={cancel} >{lang === "en" ? "Cancel" : "الغاء"}</button>
+          </div>
             <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="sites" data = {list} />
         </div>
-      
+
 }

@@ -10,7 +10,7 @@ export default function Words() {
     const inputRef = useRef(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [lang] = useState("en")
+    const [lang] = useState("ar")
 
     const openModal = () => {
       setModalIsOpen(true);
@@ -114,8 +114,8 @@ export default function Words() {
 
     <div className={`${lang === 'en' ? "buttonsContainer" : "buttonsContainerAr"}`}>
     
-       <button type="button" className="changes btn btn-outline-success saveSetting" onClick={openModal}>Save</button>
-         <button type="button" className="changes btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
+       <button type="button" className="changes btn btn-outline-success saveSetting" onClick={openModal}>{lang === "en" ? "Save" : "حفظ"}</button>
+         <button type="button" className="changes btn btn-outline-danger cancelSetting" onClick={cancel} >{lang === "en" ? "Cancel" : "الغاء"}</button>
     </div>
      <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="words" data = {list} />
  </div>
