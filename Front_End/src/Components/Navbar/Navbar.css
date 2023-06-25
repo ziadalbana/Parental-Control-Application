@@ -124,3 +124,11 @@
     height: 105px;
     cursor: pointer;
 }
+
+.rtl {
+  direction: rtl;
+}
+
+.ltr {
+  direction: ltr;
+}

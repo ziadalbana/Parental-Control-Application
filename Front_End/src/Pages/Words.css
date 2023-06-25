@@ -10,6 +10,7 @@
     width: 40vh;
     height: 100vh;
     position: absolute;
+    font-size: 20px;
   }
   
   body {
@@ -25,7 +26,7 @@
     margin-right: 0.25em;
     margin-bottom: 0.25em;
     transition: 0.3s all;
-    line-height: 1;
+    line-height: 0.8
   }
   
   .pill-query {
@@ -33,7 +34,7 @@
     border: 1px solid #2470FF;
     color: #2470FF;
     font-size: 1em;
-
+    position: relative;
   }
   
   .pill-clear {
@@ -50,10 +51,19 @@
     font-weight: bold;
     height: 18px;
   }
-  
-  .padding-right {
+  .padding {
     padding-right: 0.5em;
     padding-left: 0.5em;
+  }
+  .padding-right {
+    right: 0;
+    padding-right: 1.5em;
+    padding-left: 0.1em;
+  }
+  .padding-left {
+    left: 0;
+    padding-left: 1.5em;
+    padding-right: 0.1em;
   }
   
   .pill-close {
@@ -64,11 +74,12 @@
     text-align: center;
     border: none;
     outline: none;
-    position: relative;
+    position: absolute;
+    top: 5.5px;
     cursor: pointer;
     font-size: 1rem;
     margin: 0;
-    padding: 0;
+    padding: 0 ;
     margin-top: -0.2rem;
   }
   
@@ -208,8 +219,8 @@
   .form-box {
     position: absolute;
     top: 10%;
-    left: 130%;
-    width: 1000px;
+    left: 180%;
+    width: 900px;
   }
 
   .margin-bottom {
@@ -254,12 +265,20 @@ h2 {
 
   .buttonsContainer{
     z-index: 1000;
-    left: 1100px;
-    bottom: 10px;
-    margin: auto;
+    left: 1000px;
     position: relative;
     top: 450px;
+    width: 300px;
   }
+  .buttonsContainerAr{
+    z-index: 1000;
+    left: 90px;
+    position: relative;
+    top: 450px;
+    width: 300px;
+  }
+
+
 
   .saveSetting{
     margin-right: 20px;
@@ -272,4 +291,15 @@ h2 {
     position: absolute;
     top: 0%;
     left: 50%;
+  }
+
+
+  .rtlWord{
+    direction: rtl;
+    left: 0;
+  }
+
+  .changes {
+    width: 120px;
+    min-height: 50px;
   }

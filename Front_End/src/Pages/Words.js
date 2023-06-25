@@ -10,6 +10,7 @@ export default function Words() {
     const inputRef = useRef(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [lang] = useState("en")
 
     const openModal = () => {
       setModalIsOpen(true);
@@ -33,10 +34,11 @@ export default function Words() {
     window.location.href = '/index.html';
   }
     useEffect(() => {
-      getUser().then((token) => {
-        setList(token.blockedKeyWords);
-        setLoading(false);
-      });
+      // getUser().then((token) => {
+      //   setList(token.blockedKeyWords);
+      //   setLoading(false);
+      // });
+      setLoading(false);
     }, []);
 
 
@@ -66,22 +68,23 @@ export default function Words() {
     </div>
     :
     <div className="b-Container">
-    <div className="form-box">
-     <h2>Block By Words</h2>
+      
+    <div  className={`form-box ${lang === 'en' ? "" : "rtlWord"}`}>
+     <h2>{lang === "en" ? "Block By Words" : "حجب بواسطة الكلمات"}</h2>
     <form className="search-container">
      <input
        className="b-TextInput--lg size-100"
-       placeholder={"Add a new Word..."}
+       placeholder={lang === "en" ? "Add a new Word..." : "اضافة كلمة جديدة"}
        ref={inputRef} 
        />
-     <button onClick={addNewWord} className="b-Button--primary">Add</button>
+     <button onClick={addNewWord} className="b-Button--primary">{lang === "en" ? "Add" : "اضافة"}</button>
    </form>
  <section>
    {list.length > 0
      ?
    <div role="button" className="pill pill-clear" onClick={clearAllPills}>
      <div className="pill-content">
-       <p className="padding-right">Clear All</p>
+       <p className="padding"> {lang === "en" ? "Clear All" : "مسح الكل"}</p>
      </div>
    </div>
      :
@@ -91,9 +94,10 @@ export default function Words() {
        return (
          <div role="button" className="pill pill-query">
            <div className="pill-content">
-             <p className="padding-right">{query}</p>
+             <p className={`${lang === 'en' ? "padding-right" : "padding-left"}`}>{query}</p>
+            
              <button
-             className="pill-close"
+              className={`pill-close ${lang === 'en' ? "padding-right" : "padding-left"}`}
              onClick={() => removePill(index)}
              tabIndex="0"
              >
@@ -108,9 +112,10 @@ export default function Words() {
    </section>
     </div>
 
-    <div className="buttonsContainer">
-       <button type="button" className="btn btn-outline-success saveSetting" onClick={openModal}>Save Changes</button>
-         <button type="button" className="btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
+    <div className={`${lang === 'en' ? "buttonsContainer" : "buttonsContainerAr"}`}>
+    
+       <button type="button" className="changes btn btn-outline-success saveSetting" onClick={openModal}>Save</button>
+         <button type="button" className="changes btn btn-outline-danger cancelSetting" onClick={cancel} >Cancel</button>
     </div>
      <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="words" data = {list} />
  </div>

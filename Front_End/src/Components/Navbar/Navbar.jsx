@@ -3,7 +3,6 @@ import logo from './logo.png';
 
 // ICONS
 import { FaTwitter } from 'react-icons/fa';
-import { FaSearch } from 'react-icons/fa';
 import { BsImages } from 'react-icons/bs';
 
 import { IconContext } from "react-icons";
@@ -31,7 +30,7 @@ const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 const [loading, setLoading] = useState(true);
-const [lang] = useState("ar");
+const [lang] = useState("en");
 
 const styles = {
   left : '40%'
@@ -98,7 +97,7 @@ useEffect(() => {
     <>
       <IconContext.Provider value={{ color: "#FFF" }}>
         {/* All the icons now are white */}
-        <div className="navbar">
+        <div className={`navbar ${lang === 'en' ? "ltr" : "rtl"}`}>
           <Link to="/">
               <div className="logo">
                   <img src={logo} alt="" />
@@ -137,7 +136,7 @@ useEffect(() => {
                     <Link>
                         <FaTwitter />
                         
-                        {lang == 'en' ? <span>Block Adult Tweets</span>: <span>حجب التويتات الغير مناسبة</span>}
+                        {lang === 'en' ? <span>Block Adult Tweets</span>: <span>حجب التويتات الغير مناسبة</span>}
                         
                         
                         <Toggle
@@ -149,7 +148,7 @@ useEffect(() => {
                 <li key='images' className='nav-text'>
                     <Link>
                         <BsImages />
-                        {lang == 'en' ? <span>Block Adult Images</span>: <span>حجب الصور الغير مناسبة</span>}
+                        {lang === 'en' ? <span>Block Adult Images</span>: <span>حجب الصور الغير مناسبة</span>}
                         
                         <Toggle
                             toggled={adultImage}
