@@ -4,7 +4,8 @@ import logo from './logo.png';
 // ICONS
 import { FaTwitter } from 'react-icons/fa';
 import { BsImages } from 'react-icons/bs';
-
+import { FaGlobe  } from 'react-icons/fa';
+import { BsChevronDown , BsChevronUp } from 'react-icons/bs';
 import { IconContext } from "react-icons";
 
 // ROUTING
@@ -30,7 +31,14 @@ const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 const [loading, setLoading] = useState(true);
-const [lang] = useState("ar");
+const [lang] = useState(localStorage.getItem('lang'));
+
+const [showLanguageOptions, setShowLanguageOptions] = useState(false);
+
+const handleLanguageClick = () => {
+  setShowLanguageOptions(!showLanguageOptions);
+};
+
 
 const styles = {
   left : '40%'
@@ -38,6 +46,16 @@ const styles = {
 
 function logOut(){
   localStorage.removeItem('userName');
+  window.location.reload();
+}
+
+function convertLangToAr() {
+  localStorage.setItem('lang' , 'ar');
+  window.location.reload();
+}
+
+function convertLangToEn() {
+  localStorage.setItem('lang' , 'en');
   window.location.reload();
 }
 
@@ -168,9 +186,29 @@ useEffect(() => {
                 </li> */}
                   </div>
                }
-               
-                
 
+                <li key='lang' className='nav-text'>
+                    <Link onClick={handleLanguageClick} className="langLink">
+                       <FaGlobe  />
+                        {lang === 'en' ? <span>Language</span>: <span>اللغة</span>}
+                        {showLanguageOptions ? (
+                          <BsChevronUp className="arrow" />
+                        ) : (
+                          <BsChevronDown className="arrow" />
+                        )}
+                        
+                    </Link>
+                    {showLanguageOptions && (
+                      <ul className="sub-menu">
+                        <li>
+                          <a onClick={convertLangToAr}>{lang === 'en' ? <span>Arabic</span>: <span>العربية</span>}</a>
+                        </li>
+                        <li>
+                          <a onClick={convertLangToEn} >{lang === 'en' ? <span>English</span>: <span>الانجليزية</span>}</a>
+                        </li>
+                      </ul>
+                    )}
+                </li>
           </ul>
          
           <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type={type} data = {data} />

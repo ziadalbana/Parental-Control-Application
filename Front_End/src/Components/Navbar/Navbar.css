@@ -67,6 +67,7 @@
   }
   
   .nav-text {
+    position: relative;
     display: flex;
     justify-content: start;
     align-items: center;
@@ -132,3 +133,25 @@
 .ltr {
   direction: ltr;
 }
+
+.sub-menu {
+  position: absolute;
+  top: 60px;
+}
+
+
+
+.sub-menu li {
+  list-style-type: none;
+  color: #b2b3b9;
+  cursor: pointer;
+}
+
+
+
+.sub-menu a:hover {
+  color: blue;
+}
+
+
+

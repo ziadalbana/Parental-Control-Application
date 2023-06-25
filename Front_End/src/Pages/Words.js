@@ -10,7 +10,7 @@ export default function Words() {
     const inputRef = useRef(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [lang] = useState("ar")
+    const [lang] = useState(localStorage.getItem('lang'))
 
     const openModal = () => {
       setModalIsOpen(true);

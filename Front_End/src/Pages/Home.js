@@ -3,7 +3,7 @@ import logo from './homeLogo.png';
 import './Home.css'
 
 export default function Home() {
-  const [lang] = useState("ar")
+  const [lang] = useState(localStorage.getItem('lang'))
   return (
     <div className={`${lang === 'en' ? "homeEn" : "home"}`}>
       
@@ -25,3 +25,6 @@ export default function Home() {
     </div>
   );
 }
+
+
+
