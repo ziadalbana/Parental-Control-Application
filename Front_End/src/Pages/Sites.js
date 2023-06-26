@@ -36,11 +36,11 @@ export default function Sites() {
     }
 
     useEffect(() => {
-      // getUser().then((token) => {
-      //   setList(token.blockedLinks);
-      //   setLoading(false);
-      // });
-      setLoading(false);
+      getUser().then((token) => {
+        setList(token.blockedLinks);
+        setLoading(false);
+      });
+      
     }, []);
 
 

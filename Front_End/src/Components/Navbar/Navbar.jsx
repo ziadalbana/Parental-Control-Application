@@ -70,16 +70,13 @@ async function getUser() {
 }
 
 useEffect(() => {
-  // getUser().then((token) => {
-  //   setAdultImage(token.removeAdultImages);
-  //   setAdultTweets(token.removeAdultTweets);
-  //   setSafeSearch(token.enforceSafeSearch);
-  //   setLoading(false);
-  // });
-     setAdultImage(true);
-    setAdultTweets(false);
-    setSafeSearch(true);
+  getUser().then((token) => {
+    setAdultImage(token.removeAdultImages);
+    setAdultTweets(token.removeAdultTweets);
+    setSafeSearch(token.enforceSafeSearch);
     setLoading(false);
+  });
+   
 
 
 }, [safeSearch , adultImage , adultTweets]);

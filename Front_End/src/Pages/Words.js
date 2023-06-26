@@ -34,11 +34,10 @@ export default function Words() {
     window.location.href = '/index.html';
   }
     useEffect(() => {
-      // getUser().then((token) => {
-      //   setList(token.blockedKeyWords);
-      //   setLoading(false);
-      // });
-      setLoading(false);
+      getUser().then((token) => {
+        setList(token.blockedKeyWords);
+        setLoading(false);
+      });
     }, []);
 
 
