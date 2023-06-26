@@ -3,6 +3,7 @@ import React from "react";
 import * as AiIcons from "react-icons/ai";
 import { FaLink } from 'react-icons/fa';
 import { FaFont } from 'react-icons/fa';
+import { RiHistoryLine } from 'react-icons/ri';
 
 export const SidebarData = [
   {
@@ -10,6 +11,13 @@ export const SidebarData = [
     titleAr : "الصفحة الرئيسية",
     path: "/index.html",
     icon: <AiIcons.AiFillHome />,
+    cName: "nav-text"
+  },
+  {
+    title: "History",
+    titleAr : "السجل",
+    path: "/history",
+    icon: <RiHistoryLine /> ,
     cName: "nav-text"
   },
   {

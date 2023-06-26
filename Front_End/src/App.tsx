@@ -15,13 +15,14 @@ import Navbar from './Components/Navbar/Navbar';
 import Home from "../src/Pages/Home"
 import Sites from "../src/Pages/Sites";
 import Words from "../src/Pages/Words";
+import History from "../src/Pages/History";
 
 
 function App() {
  
 
    
- const [user ,setUser ] = useState("fdf");
+ const [user ,setUser ] = useState("");
  
  console.log(user);
 
@@ -37,6 +38,7 @@ function App() {
             <Routes>
               <Route path="/index.html" element={<Home />} />
               <Route path="/sites" element={<Sites />} />
+              <Route path="/history" element={<History />} />
               <Route path="/words" element={<Words />} />
             </Routes>
           </BrowserRouter>

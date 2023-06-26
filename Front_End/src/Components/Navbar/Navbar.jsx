@@ -123,7 +123,7 @@ useEffect(() => {
           </Link>
           <div className="userInfo">
             <div>{localStorage.getItem("userName")}</div>
-            <div className="logout" onClick={openModal}> {lang === "en" ? "logout" : "تسجيل الخروج"}</div>
+            <div className="logout" onClick={logOut}> {lang === "en" ? "logout" : "تسجيل الخروج"}</div>
           </div>
         </div>
         <nav className={`nav-menu active ${lang === 'en' ? "english" : "arabic"}`}>
