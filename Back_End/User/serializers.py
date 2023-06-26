@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
-from .models import User
+from .models import User, History
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -23,3 +23,12 @@ class UserSerializer(serializers.ModelSerializer):
         hashed_password = make_password(password)
         user = User.objects.create(password=hashed_password, **validated_data)
         return user
+
+
+class HistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = History
+        fields = ['id',
+                  'userName',
+                  'word',
+                  'timestamp']

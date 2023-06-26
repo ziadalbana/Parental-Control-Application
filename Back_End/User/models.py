@@ -12,3 +12,9 @@ class User(models.Model):
     enforceSafeSearch = models.BooleanField(default=False)
     blockedKeyWords = models.JSONField(default=list, blank=True)
     blockedLinks = models.JSONField(default=list, blank=True)
+
+
+class History(models.Model):
+    userName = models.CharField(max_length=255)
+    word = models.JSONField(default=list, blank=True)
+    timestamp = models.JSONField(default=list, blank=True)

@@ -2,8 +2,8 @@ from django.contrib.auth.hashers import check_password
 import time
 from rest_framework.parsers import JSONParser
 from rest_framework import status
-from .serializers import UserSerializer
-from .models import User
+from .serializers import UserSerializer, HistorySerializer
+from .models import User, History
 import torch
 from django.conf import settings
 from .preprocessing import *
@@ -13,7 +13,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from concurrent.futures import ThreadPoolExecutor
 from django.http import JsonResponse
-from  .classical_models import *
+from .classical_models import *
+
 
 # m1 = loadM1()
 # m2=loadM2()
@@ -32,6 +33,7 @@ class SignUp(APIView):
         serializer = UserSerializer(data=user_data)
         if serializer.is_valid():
             serializer.save()
+            History.objects.create(userName=username, word=[], timestamp=[])
             payload = {'username': username}
             token = jwt.encode(payload, settings.SECRET_KEY, algorithm='HS256')
             return JsonResponse({'result': 'True', 'token': token})
@@ -177,6 +179,44 @@ class BlockedKeyWords(APIView):
 
         # serializer = UserSerializer(user)
         return Response({'result': 'True'}, status=status.HTTP_200_OK)
+
+
+class HistoryView(APIView):
+    def patch(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        history = History.objects.filter(userName=username).first()
+        if not history:
+            return Response({'error': 'History not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        word = request.data.get('word')
+        timestamp = request.data.get('timestamp')
+
+        history.word.append(word)
+        history.timestamp.append(timestamp)
+
+        history.save()
+
+        return Response({'result': 'True'}, status=status.HTTP_200_OK)
+
+    def get(self, request, username):
+        jwt_auth = JWTAuthentication()
+        isAuthenticated = jwt_auth.authenticate(request)
+
+        if not isAuthenticated:
+            return Response({'result': 'False'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        history = History.objects.filter(userName=username).first()
+
+        if not history:
+            return Response({'error': 'History not found'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = HistorySerializer(history)
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class ModelPredict(APIView):

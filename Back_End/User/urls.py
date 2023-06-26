@@ -10,6 +10,7 @@ urlpatterns = [
     path('enforcesafesearch/<str:username>', EnforceSafeSearch.as_view()),
     path('removetweets/<str:username>', RemoveAdultTweets.as_view()),
     path('removeimages/<str:username>', RemoveAdultImages.as_view()),
+    path('history/<str:username>', HistoryView.as_view()),
     path('checkadult', ModelPredict.as_view()),
     # path('checkadultC', ModelPredictC.as_view()),
 
