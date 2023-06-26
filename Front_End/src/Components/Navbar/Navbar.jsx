@@ -116,7 +116,7 @@ useEffect(() => {
       <IconContext.Provider value={{ color: "#FFF" }}>
         {/* All the icons now are white */}
         <div className={`navbar ${lang === 'en' ? "ltr" : "rtl"}`}>
-          <Link to="/">
+          <Link to="/index.html">
               <div className="logo">
                   <img src={logo} alt="" />
               </div>

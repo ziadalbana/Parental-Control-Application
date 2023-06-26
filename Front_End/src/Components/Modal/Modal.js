@@ -9,6 +9,7 @@ export default function ModalComponent(props) {
 
     let [wrongPassword, setWrongPassword] = useState(false);
     let [emptyPassword, setEmptyPassword] = useState(false);
+    const[lang] = useState(localStorage.getItem('lang'))
     const [inputUser ] = useState({
       userName: localStorage.getItem('userName'),
       password: ''
@@ -160,18 +161,21 @@ const customStyles = {
   return (
     <Modal isOpen={props.modalIsOpen} onRequestClose={props.closeModal} style={customStyles}>
         <Form>
-        <Form.Group className="mb-3" controlId="formGroupPassword">
-            <Form.Label>Please, Enter your password to save changes</Form.Label>
-            <Form.Control type="password" placeholder="Password" onChange={e => inputUser.password = e.target.value} />
+        <Form.Group className={`mb-3 ${lang === "en" ? "" : "rtl"}`} controlId="formGroupPassword" >
+       
+            <Form.Label> {lang === "en" ? "Please, Enter your password to save changes" : "ادخل كلمة المرور"}</Form.Label>
+            <Form.Control type="password" placeholder={lang === "en" ? "password" : "كلمة المرور"} onChange={e => inputUser.password = e.target.value}  style={{ fontSize:'20px' }} />
             <div className={`${!wrongPassword ? "hidden" : ""}`} style={{ color: 'red' , fontSize:'14px' }}>
-              Please, Enter the correct password !
+              
+              {lang === "en" ? "Please, Enter the correct password !" : "كلمة المرور غير صحيحة"}
             </div>
             <div className={`${!emptyPassword ? "hidden" : ""}`} style={{ color: 'red' , fontSize:'14px' }}>
-              This Field is Empty !
+              
+              {lang === "en" ? "This Field is Empty !" : "لا يوجد كلمة مرور"}
             </div>
         </Form.Group>
-        <button type="button" className="btn btn-primary" onClick={saveChanges} style={{marginRight : '10px'}}>Submit</button>
-        <button type="button" className="btn btn-danger" onClick={close}>cancel</button>
+        <button type="button" className="btn btn-primary changesModal" onClick={saveChanges} style={{marginRight : '10px'}}>{lang === "en" ? "Save" : "حفظ"}</button>
+        <button type="button" className="btn btn-danger changesModal" onClick={close}>{lang === "en" ? "Cancel" : "الغاء"}</button>
         </Form>
     </Modal>
   )
