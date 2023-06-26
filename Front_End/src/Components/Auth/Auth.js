@@ -134,18 +134,19 @@ export default function Auth () {
       <div className="Auth-form-container">
         <form ref={formRef}  className="Auth-form">
           <div className="Auth-form-content">
-            <h3 className="Auth-form-title">Sign In</h3>
-            <div className="text-center">
+            <h3 className="Auth-form-title" >Sign In</h3>
+            <div className="text-center"  style={{fontSize:20}}>
               Not registered yet?{" "}
-              <span className="link-primary" onClick={changeAuthMode}>
+              <span className="link-primary" onClick={changeAuthMode} style={{fontSize:20}}>
                 Sign Up
               </span>
             </div>
-            <div className="form-group mt-3">
+            <div className="form-group mt-3"  style={{fontSize:20}}>
               <label>Username</label>
               <input
                 type="text"
                 className="form-control mt-1"
+                style={{fontSize:16}}
                 placeholder="Enter username"
                 onChange={e => user.userName = e.target.value}
               />
@@ -155,6 +156,7 @@ export default function Auth () {
               <input
                 type="password"
                 className="form-control mt-1 "
+                style={{fontSize:16}}
                 placeholder="Enter password"
                 onChange={e => user.password = e.target.value}
               />
@@ -166,7 +168,7 @@ export default function Auth () {
                 There is an Empty Field !
             </div>
             <div className="d-grid gap-2 mt-3">
-              <button type="submit" className="btn btn-primary" onClick={HandleSignIn} disabled={isButtonDisabled}>
+              <button type="submit" className="btn btn-primary" onClick={HandleSignIn} disabled={isButtonDisabled}  style={{width:320 , height:50}}>
                 Submit
               </button>
             </div>
@@ -182,9 +184,9 @@ export default function Auth () {
       <form ref={formRef}  className="Auth-form">
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Sign Up</h3>
-          <div className="text-center">
+          <div className="text-center"  style={{fontSize:20}}>
             Already registered?{" "}
-            <span className="link-primary" onClick={changeAuthMode}>
+            <span className="link-primary" onClick={changeAuthMode}  style={{fontSize:20}}>
               Sign In
             </span>
           </div>
@@ -193,6 +195,7 @@ export default function Auth () {
             <input
               type="text"
               className="form-control mt-1"
+              style={{fontSize:14}}
               placeholder="e.g JaneDoe76"
               onChange={e => newUser.userName = e.target.value}
             />
@@ -205,6 +208,7 @@ export default function Auth () {
             <input
               type="email"
               className="form-control mt-1"
+              style={{fontSize:16}}
               placeholder="Email Address"
               onChange={e => newUser.email = e.target.value}
             />
@@ -214,6 +218,7 @@ export default function Auth () {
             <input
               type="password"
               className="form-control mt-1"
+              style={{fontSize:16}}
               placeholder="Password"
               onChange={e => newUser.password = e.target.value}
             />
@@ -222,7 +227,7 @@ export default function Auth () {
               There is an Empty Field !
             </div>
           <div className="d-grid gap-2 mt-3">
-            <button type="submit" className="btn btn-primary" onClick={HandleSignUp} disabled={isButtonDisabled}>
+            <button type="submit" className="btn btn-primary" onClick={HandleSignUp}  style={{width:320 , height:50}} disabled={isButtonDisabled}>
               Submit
             </button>
           </div>
