@@ -21,7 +21,7 @@ import { Toggle } from "./Toggle";
 import ModalComponent from "../Modal/Modal";
 import { ClipLoader } from "react-spinners";
 
-export default function Navbar() {
+export default function Navbar({ refreshApp }) {
 
 
 const [adultImage , setAdultImage] = useState(false);
@@ -31,7 +31,7 @@ const [modalIsOpen, setModalIsOpen] = useState(false);
 const [type , setType] = useState("");
 const [data ,setData] = useState(false);
 const [loading, setLoading] = useState(true);
-const [lang] = useState(localStorage.getItem('lang'));
+const [lang , setLang] = useState(localStorage.getItem('lang'));
 
 const [showLanguageOptions, setShowLanguageOptions] = useState(false);
 
@@ -51,12 +51,14 @@ function logOut(){
 
 function convertLangToAr() {
   localStorage.setItem('lang' , 'ar');
-  window.location.reload();
+  //setLang("ar");
+  refreshApp(); 
 }
 
 function convertLangToEn() {
   localStorage.setItem('lang' , 'en');
-  window.location.reload();
+  //setLang("en");
+  refreshApp(); 
 }
 
 async function getUser() {

@@ -20,6 +20,12 @@ import History from "../src/Pages/History";
 
 function App() {
  
+  const [lang , setLang] = useState(localStorage.getItem('lang'));
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const refreshApp = () => {
+    setRefreshKey((prevKey) => prevKey + 1);
+  };
 
    
  const [user ,setUser ] = useState(localStorage.getItem('userName'));
@@ -28,13 +34,13 @@ function App() {
 
  
   return (
-    <div>
+    <div key={refreshKey}>
 
       {
         user?
         
           <BrowserRouter>
-            <Navbar />
+            <Navbar  refreshApp={refreshApp}  />
             <Routes>
               <Route path="/index.html" element={<Home />} />
               <Route path="/sites" element={<Sites />} />
