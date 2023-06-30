@@ -8,6 +8,17 @@ async function getUser(username , token) {
   })
   .then(data => data.json())
 }
+function updateHistory(username , token , word) {
+  return fetch(`http://localhost:8000/user/updateHistory/${username}`, {
+  method: 'POST',
+  headers: {
+    Authorization : `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({word})
+  })
+  .then(data => data.json())
+}
 
 chrome.action.onClicked.addListener(function() {
     chrome.tabs.create({ url: chrome.runtime.getURL("index.html") });
@@ -64,6 +75,7 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
   for (let i = 0; i < blockedKeywords.length; i++) {
     if (url.includes(blockedKeywords[i])) {
       chrome.tabs.update(details.tabId, {url: chrome.runtime.getURL("blockedPage.html")});
+      updateHistory(username , auth , blockedKeywords[i]);
       return;
     }
   }

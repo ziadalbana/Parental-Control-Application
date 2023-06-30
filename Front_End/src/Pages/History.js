@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './History.css'
 import { useState } from 'react'
 export default function History() {
-   const [history, setHistory] = useState([{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"}
-   ,{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"},{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"}
-   ,{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"},{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"}
-   ,{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"},{id:1,word:"test",time:"2021-05-05 12:00:00"},{id:2,word:"test2",time:"2021-05-05 12:00:00"}
-]);
-   const [lang] = useState(localStorage.getItem('lang'))
+   const [history, setHistory] = useState([]);
+   const [lang] = useState(localStorage.getItem('lang'));
+   useEffect(() => {
+
+    async function getHistory() {
+      return fetch(`http://localhost:8000/user/getHistory/${localStorage.getItem('userName')}`, {
+      method: 'GET',
+      headers: {
+        Authorization : `Bearer ${localStorage.getItem('token')}`,
+      }
+      })
+      .then(data => data.json())
+    }
+
+    getHistory().then((token) => {
+      setHistory(token);
+    });
+   }, []);
   return (
 <div className={`${lang === 'en' ? "containerEn" : "container"}`}>
-            <h3 className="p">{lang === "en" ? "History of blocked searched keywords or links" :" سجل البحث بالكلمات او المواقع الممنوعة" }</h3>
+    <div className="header">
+            <h3 className={`${lang === 'en' ? "pEnglish" : "pArabic"}`}>{lang === "en" ? "History of blocked searched keywords or links" :" سجل البحث بالكلمات او المواقع الممنوعة" }</h3>
             <table className="table">
-                <thead>
+                <thead >
                     <tr>
-                        <th>{lang==="en" ?"Blocked search": "البحث الممنوع"}</th>
+                        <th>{lang==="en" ?"Blocked action": " الممنوع"}</th>
                         <th>{lang==="en" ?"Time": "التاريخ"}</th>
                     </tr>
                 </thead>
@@ -27,6 +40,7 @@ export default function History() {
                     )}
                 </tbody>
             </table>
+         </div>
         </div>
   )
 }
