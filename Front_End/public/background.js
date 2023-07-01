@@ -10,7 +10,6 @@ async function getUser(username , token) {
 }
 function getCurrentDateTime() {
   let now = new Date();
-
   let year = now.getFullYear();
   let month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
   let day = String(now.getDate()).padStart(2, '0');
@@ -47,49 +46,37 @@ chrome.action.onClicked.addListener(function() {
     if (message.type === "SAVE_USERNAME") {
       const { username } = message.data;
       chrome.storage.local.set({ userName: username }, function() {
-        console.log('Data saved successfully!');
       });
-
-      console.log("Received username:", username);
       chrome.storage.local.get(['userName'], function(result) {
-        console.log('Data retrieved successfully!', result.userName);
       });
       sendResponse({ status: "OK" }); // Send a response back to the sender
     }else if(message.type === "SAVE_TOKEN") {
       const { token } = message.data;
       chrome.storage.local.set({ token: token }, function() {
-        console.log('Data saved successfully!');
       });
-
-      console.log("Received token:", token);
       chrome.storage.local.get(['token'], function(result) {
-        console.log('Data retrieved successfully!', result.token);
       });
       sendResponse({ status: "OK" }); // Send a response back to the sender
     }
   });
 chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
+  if(details.url.includes("&safe=active")) return;
   let adultKeywords ; 
   let adultLinks ;
   let username ;
   let auth 
-  console.log("onBeforeNavigate");;
   await new Promise((resolve, reject) => {
     chrome.storage.local.get(['userName', 'token'], (result) => {
       username = result.userName ;
       auth = result.token ;
-      console.log("values1",username , auth);
       resolve();
     });
   });
-  console.log("values2",username , auth);
   const token = await getUser(username , auth);
-  console.log("token",token);
   adultKeywords = token.blockedKeyWords || [];
   adultLinks = token.blockedLinks || [];  
   const url = details.url.toLowerCase();
   const blockedKeywords = adultKeywords.concat(adultLinks);
-  console.log("blockedKeywords", blockedKeywords);
   for (let i = 0; i < blockedKeywords.length; i++) {
     if (url.includes(blockedKeywords[i])) {
       chrome.tabs.update(details.tabId, {url: chrome.runtime.getURL("blockedPage.html")});
@@ -100,7 +87,6 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
 }, {url: [{urlMatches: ".*"}]});
 
 chrome.webNavigation.onBeforeNavigate.addListener((details) => {
-  console.log(details.url);
   const googleSearchURLPattern = "https://www.google.com/search*";
   const safeSearchParam = "&safe=active";
   if (details.url.match(googleSearchURLPattern) && !details.url.includes(safeSearchParam)) {
