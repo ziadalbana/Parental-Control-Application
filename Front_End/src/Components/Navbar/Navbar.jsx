@@ -46,7 +46,7 @@ const styles = {
 
 function logOut(){
   localStorage.removeItem('userName');
-  window.location.reload();
+  refreshApp(); 
 }
 
 function convertLangToAr() {
@@ -97,12 +97,12 @@ useEffect(() => {
     setType("adultImages");
     openModal();
  }
- const ToggleSafeSearch = () => {
-    setData(!safeSearch);
-    setSafeSearch(!safeSearch);
-    setType("safeSearch");
-    openModal();
- }
+//  const ToggleSafeSearch = () => {
+//     setData(!safeSearch);
+//     setSafeSearch(!safeSearch);
+//     setType("safeSearch");
+//     openModal();
+//  }
  const ToggleAdultTweets = () => {
     setData(!adultTweets);
     setAdultTweets(!adultTweets);
