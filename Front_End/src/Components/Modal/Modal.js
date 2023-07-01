@@ -123,15 +123,15 @@ export default function ModalComponent(props) {
             }else if(props.type === "adultImages")
             {
                 await triggerAdultImages(props.data);
-                window.location.href = 'index.html';
+                props.refreshApp();
             }else if(props.type === "safeSearch")
             {
                 await triggerSafeSearch(props.data);
-                window.location.href = 'index.html';
+                props.refreshApp();
             }else if(props.type === "AdultTweets")
             {
                 await triggerAdultTweets(props.data);
-                window.location.href = 'index.html';
+                props.refreshApp();
             }
             props.closeModal();
           }

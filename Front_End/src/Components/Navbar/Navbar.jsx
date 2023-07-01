@@ -210,8 +210,8 @@ useEffect(() => {
                 </li>
           </ul>
          
-          <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type={type} data = {data} />
-          <ModalComponent openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="logout" logout = {logOut} />
+          <ModalComponent refreshApp={refreshApp} openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type={type} data = {data} />
+          <ModalComponent refreshApp={refreshApp} openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="logout" logout = {logOut} />
         </nav>
       </IconContext.Provider>
     </>
