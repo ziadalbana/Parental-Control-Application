@@ -8,14 +8,32 @@ async function getUser(username , token) {
   })
   .then(data => data.json())
 }
-function updateHistory(username , token , word) {
-  return fetch(`http://localhost:8000/user/updateHistory/${username}`, {
-  method: 'POST',
+function getCurrentDateTime() {
+  let now = new Date();
+
+  let year = now.getFullYear();
+  let month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  let day = String(now.getDate()).padStart(2, '0');
+  let hours = String(now.getHours()).padStart(2, '0');
+  let minutes = String(now.getMinutes()).padStart(2, '0');
+
+  let dateTime = year +"-"+ month+"-" + day+" " + hours+":"+minutes;
+  return dateTime;
+}
+
+function updateHistory(username , token , blockedAction) {
+let dataFormat=getCurrentDateTime();
+  let historyObject={
+  word:blockedAction,
+  timestamp:dataFormat,
+};
+  return fetch(`http://localhost:8000/user/history/${username}`, {
+  method: 'PATCH',
   headers: {
     Authorization : `Bearer ${token}`,
     'Content-Type': 'application/json'
   },
-  body: JSON.stringify({word})
+  body: JSON.stringify(historyObject)
   })
   .then(data => data.json())
 }
