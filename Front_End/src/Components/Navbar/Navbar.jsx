@@ -44,10 +44,7 @@ const styles = {
   left : '40%'
 };
 
-function logOut(){
-  localStorage.removeItem('userName');
-  refreshApp(); 
-}
+
 
 function convertLangToAr() {
   localStorage.setItem('lang' , 'ar');
@@ -122,7 +119,6 @@ useEffect(() => {
           </Link>
           <div className="userInfo">
             <div>{localStorage.getItem("userName")}</div>
-            <div className="logout" onClick={logOut}> {lang === "en" ? "logout" : "تسجيل الخروج"}</div>
           </div>
         </div>
         <nav className={`nav-menu active ${lang === 'en' ? "english" : "arabic"}`}>
@@ -209,9 +205,7 @@ useEffect(() => {
                     )}
                 </li>
           </ul>
-         
           <ModalComponent refreshApp={refreshApp} openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type={type} data = {data} />
-          <ModalComponent refreshApp={refreshApp} openModal = {openModal} closeModal = {closeModal} modalIsOpen = {modalIsOpen} type="logout" logout = {logOut} />
         </nav>
       </IconContext.Provider>
     </>

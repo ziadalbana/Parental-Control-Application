@@ -110,11 +110,8 @@ export default function ModalComponent(props) {
           console.log(isCorrectPassword);
           if(isCorrectPassword)
           {
-            if(props.type === "logout")
-            {
-              props.logout();
-            }
-            else if(props.type === "words")
+           
+            if(props.type === "words")
             {
                 await saveWords(props.data);
             }else if(props.type === "sites")
