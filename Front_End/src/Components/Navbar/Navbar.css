@@ -24,13 +24,17 @@
     font-size: 25px;
   }
 
+ 
   .userInfo div {
     padding: 10px 15px;
-  }
+    margin-top: -68px;
+}
 
-  .logout{
+
+  .logout {
     cursor: pointer;
-  }
+    margin-top: -57px;
+}
   
   .menu-bars {
     margin-left: 2rem;
@@ -52,7 +56,7 @@
   
   .nav-menu.active {
     transition: 350ms;
-    width: 400px;
+    width: 28%;
     z-index: 10;
   }
 
@@ -120,9 +124,9 @@
   }
 
   .logo {
-    margin-top: -20px;
-    width: 279px;
-    height: 105px;
+    margin-top: -56px;
+    width: 297px;
+    height: 218px;
     cursor: pointer;
 }
 

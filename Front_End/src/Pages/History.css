@@ -1,24 +1,26 @@
 .container{
-  text-align: center;
-  margin-right: 300px;
-  width: 1200px;
+  margin-right: 32%;
+  margin-top: 46px;
+  width: 65%;
 }
 
 .containerEn {
-  margin-left: 300px;
-  text-align: center;
-  width: 1200px;
+  margin-left: 32%;
+  width: 65%;
+  margin-top: 46px;
 }
 
 .pArabic{
   font-size: 30px;
+  text-align: center;
 }
 .pEnglish{
   font-size: 30px;
+  text-align: center;
 }
 
 .table {
-  width: 70%;
+  width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
   border: 1px solid #ccc;
