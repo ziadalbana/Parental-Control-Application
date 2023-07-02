@@ -11,9 +11,7 @@ export default function Home() {
         <img src={logo} />
       </div>
       <div className="description">
-        <h3>
-            KiDefender
-        </h3>
+       
         {
           lang === "en" ?
           <p>chrome extension that helps you to protect your kids from inappropriate content on the internet.</p>
